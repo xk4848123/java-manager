@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nidecai.managerndc.mapper.ShopownMapper" >
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.Shopown" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="scope_business" property="scopeBusiness" jdbcType="VARCHAR" />
+    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+    <result column="food_license" property="foodLicense" jdbcType="VARCHAR" />
+    <result column="card_pic" property="cardPic" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="marketid" property="marketid" jdbcType="INTEGER" />
+    <result column="is_hot" property="isHot" jdbcType="TINYINT" />
+    <result column="is_recommend" property="isRecommend" jdbcType="TINYINT" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="accid" property="accid" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="cameraid" property="cameraid" jdbcType="VARCHAR" />
+    <result column="roomid" property="roomid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="INTEGER" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="is_since" property="isSince" jdbcType="BIT" />
+    <result column="printer_num" property="printerNum" jdbcType="VARCHAR" />
+    <result column="printer_key" property="printerKey" jdbcType="VARCHAR" />
+    <result column="examine" property="examine" jdbcType="INTEGER" />
+    <result column="is_show" property="isShow" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="is_appointment" property="isAppointment" jdbcType="INTEGER" />
+    <result column="recommend" property="recommend" jdbcType="INTEGER" />
+    <result column="examine_info" property="examineInfo" jdbcType="VARCHAR" />
+    <result column="phoneType" property="phonetype" jdbcType="CHAR" />
+    <result column="pushToken" property="pushtoken" jdbcType="VARCHAR" />
+    <result column="unFavorable" property="unfavorable" jdbcType="INTEGER" />
+    <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
+    <result column="yx_token" property="yxToken" jdbcType="VARCHAR" />
+    <result column="vip_promotion_reward" property="vipPromotionReward" jdbcType="DECIMAL" />
+    <result column="vip_promotion_rewardget" property="vipPromotionRewardget" jdbcType="DECIMAL" />
+    <result column="vip_promotion_rewardover" property="vipPromotionRewardover" jdbcType="DECIMAL" />
+    <result column="public_openid" property="publicOpenid" jdbcType="VARCHAR" />
+    <result column="mode" property="mode" jdbcType="TINYINT" />
+  </resultMap>
+
+
+
+</mapper>

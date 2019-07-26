@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nidecai.managerndc.mapper.CvuserOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.CvuserOrder" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="pay_status" property="payStatus" jdbcType="TINYINT" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="integralPrice" property="integralprice" jdbcType="DECIMAL" />
+    <result column="store_activity_price" property="storeActivityPrice" jdbcType="DECIMAL" />
+    <result column="vip_relief" property="vipRelief" jdbcType="DECIMAL" />
+    <result column="coupon_price" property="couponPrice" jdbcType="DECIMAL" />
+    <result column="coupon_id" property="couponId" jdbcType="INTEGER" />
+    <result column="is_show" property="isShow" jdbcType="TINYINT" />
+    <result column="totalPrice" property="totalprice" jdbcType="DECIMAL" />
+    <result column="deliver_fee" property="deliverFee" jdbcType="DECIMAL" />
+    <result column="originalPrice" property="originalprice" jdbcType="DECIMAL" />
+    <result column="ctime" property="ctime" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="INTEGER" />
+    <result column="checkfield" property="checkfield" jdbcType="TINYINT" />
+    <result column="type_pay" property="typePay" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+
+</mapper>

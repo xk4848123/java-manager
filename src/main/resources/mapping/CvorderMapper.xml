@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nidecai.managerndc.mapper.CvorderMapper" >
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.Cvorder" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="ctime" property="ctime" jdbcType="INTEGER" />
+    <result column="ordertaking_time" property="ordertakingTime" jdbcType="INTEGER" />
+    <result column="orderend_time" property="orderendTime" jdbcType="INTEGER" />
+    <result column="service_time" property="serviceTime" jdbcType="INTEGER" />
+    <result column="addressid" property="addressid" jdbcType="INTEGER" />
+    <result column="order_status" property="orderStatus" jdbcType="TINYINT" />
+    <result column="pay_status" property="payStatus" jdbcType="TINYINT" />
+    <result column="deliver_fee" property="deliverFee" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="uoid" property="uoid" jdbcType="INTEGER" />
+    <result column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="deliver_model" property="deliverModel" jdbcType="TINYINT" />
+    <result column="service_fee" property="serviceFee" jdbcType="DECIMAL" />
+  </resultMap>
+
+
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nidecai.managerndc.mapper.RiderUserMapper" >
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.RiderUser" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="marketid" property="marketid" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="INTEGER" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="is_order" property="isOrder" jdbcType="TINYINT" />
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="accid" property="accid" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="test_user" property="testUser" jdbcType="INTEGER" />
+    <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
+    <result column="vip_promotion_reward" property="vipPromotionReward" jdbcType="DECIMAL" />
+    <result column="vip_promotion_rewardget" property="vipPromotionRewardget" jdbcType="DECIMAL" />
+    <result column="vip_promotion_rewardover" property="vipPromotionRewardover" jdbcType="DECIMAL" />
+    <result column="public_openid" property="publicOpenid" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+
+
+</mapper>
