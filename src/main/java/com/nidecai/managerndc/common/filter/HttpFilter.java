@@ -38,12 +38,14 @@ public class HttpFilter implements Filter {
         Map<String, String> cvorderUrlMap = (Map<String, String>) applicationContext.getBean("cvordermap");
         if (servletRequest.getParameter("loginToken") != null) {
             List<String> permissions = cVStoreService.getPermissionsByToken(servletRequest.getParameter("loginToken"));
+            permissions.add("riderpromotionnum");
             if (permissions != null && permissions.size() != 0) {
                 HttpServletRequest request = (HttpServletRequest) servletRequest;
                 //获取当前访问的url
                 String requestURI = request.getRequestURI();
                 String currentUriPermission = cvorderUrlMap.get(requestURI);
                 if (currentUriPermission != null) {
+                	
                     if (permissions.contains(currentUriPermission)) {
                         filterChain.doFilter(servletRequest, servletResponse);
 
@@ -53,7 +55,24 @@ public class HttpFilter implements Filter {
                         return;
                     }
 
-                }
+                }else {
+					//tomcat配置多一层路径的处理
+                	String[] splits = requestURI.split("/");
+                	String needSub = "/" + splits[1];
+                	requestURI = requestURI.replaceFirst(needSub, "");
+                	currentUriPermission = cvorderUrlMap.get(requestURI);
+                	 if (currentUriPermission != null) {
+                         if (permissions.contains(currentUriPermission)) {
+                             filterChain.doFilter(servletRequest, servletResponse);
+
+                         } else {
+                             httpServletResponse.setContentType("application/json;charset=utf-8");
+                             httpServletResponse.getWriter().write(GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.NO_PERMISION)));
+                             return;
+                         }
+
+                     }
+				}
             } else {
                 httpServletResponse.setContentType("application/json;charset=utf-8");
                 httpServletResponse.getWriter().write(GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.PARAM_LOST)));
@@ -66,18 +85,4 @@ public class HttpFilter implements Filter {
             return;
         }
     }
-    public static String hmacSha1(String src, String key) {
-        try {
-            SecretKeySpec signingKey = new SecretKeySpec(key.getBytes("utf-8"), "HmacSHA1");
-            Mac mac = Mac.getInstance("HmacSHA1");
-            mac.init(signingKey);
-            byte[] rawHmac = mac.doFinal(src.getBytes("utf-8"));
-            return "1";
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void main(String[] args) {
-    	hmacSha1("1121","key");
-	}
 }

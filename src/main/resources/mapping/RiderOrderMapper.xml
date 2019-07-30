@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nidecai.managerndc.mapper.RiderOrderMapper">
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.RiderOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rider_sn" jdbcType="VARCHAR" property="riderSn" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="rider_status" jdbcType="TINYINT" property="riderStatus" />
+    <result column="pay_status" jdbcType="TINYINT" property="payStatus" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="marketid" jdbcType="INTEGER" property="marketid" />
+    <result column="rider_pay" jdbcType="DECIMAL" property="riderPay" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="couponid" jdbcType="INTEGER" property="couponid" />
+    <result column="type_pay" jdbcType="VARCHAR" property="typePay" />
+    <result column="totalPrice" jdbcType="DOUBLE" property="totalprice" />
+    <result column="pay_time" jdbcType="INTEGER" property="payTime" />
+    <result column="service_time" jdbcType="INTEGER" property="serviceTime" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="finish_time" jdbcType="INTEGER" property="finishTime" />
+    <result column="ctime" jdbcType="INTEGER" property="ctime" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="is_appointment" jdbcType="SMALLINT" property="isAppointment" />
+    <result column="end_time" jdbcType="INTEGER" property="endTime" />
+    <result column="original_price" jdbcType="DECIMAL" property="originalPrice" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="coupon_price" jdbcType="DECIMAL" property="couponPrice" />
+    <result column="market_activity_price" jdbcType="DECIMAL" property="marketActivityPrice" />
+    <result column="store_activity_price" jdbcType="DECIMAL" property="storeActivityPrice" />
+    <result column="vip_relief" jdbcType="DECIMAL" property="vipRelief" />
+    <result column="error_price" jdbcType="DECIMAL" property="errorPrice" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="test" jdbcType="INTEGER" property="test" />
+  </resultMap>
+  
+  <select id="getAllSumOfRid" resultType="java.lang.Integer">
+  	SELECT
+	SUM( num ) 
+    FROM
+	(
+	SELECT
+		uid,
+		COUNT( 1 ) - 1 num 
+	FROM
+		hm_rider_order 
+	WHERE
+	pay_status = 1 AND
+		uid IN
+	<foreach collection="set" item="uid" separator="," open="(" close=")">
+		#{uid}
+	</foreach>
+	GROUP BY
+		uid 
+	) temp
+  </select>
+  
+   <select id="getNewSumOfRidByCtime" resultType="java.lang.Integer">
+  	SELECT
+	SUM( num ) 
+    FROM
+	(
+	SELECT
+		uid,
+		COUNT( 1 ) - 1 num 
+	FROM
+		hm_rider_order 
+	WHERE
+	pay_status = 1 AND 
+	ctime > #{ctime} AND
+		uid IN
+	<foreach collection="set" item="uid" separator="," open="(" close=")">
+		#{uid}
+	</foreach>
+	GROUP BY
+		uid 
+	) temp
+  </select>
+  
+  
+  <select id="getOldUser" resultType="java.lang.Integer">
+  SELECT uid FROM hm_rider_order WHERE ctime <![CDATA[ <= ]]> #{ctime} AND pay_status = 1 and uid IN
+  <foreach collection="set" item="uid" separator="," open="(" close=")">
+		#{uid}
+	</foreach>
+   GROUP BY uid
+  </select>
+  
+  <select id="getOldSumOfRidByCtime" resultType="java.lang.Integer">
+  	SELECT
+	SUM( num ) 
+    FROM
+	(
+	SELECT
+		uid,
+		COUNT( 1 ) num 
+	FROM
+		hm_rider_order 
+	WHERE
+	pay_status = 1 AND 
+	ctime > #{ctime} AND
+		uid IN
+	<foreach collection="list" item="uid" separator="," open="(" close=")">
+		#{uid}
+	</foreach>
+	GROUP BY
+		uid 
+	) temp
+  </select>
+  
+</mapper>

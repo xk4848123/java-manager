@@ -1,0 +1,31 @@
+spring:
+    datasource:
+        username: emarket_dev
+        password: emarket@dev@-123
+        url: jdbc:mysql://47.98.195.250:3306/emarket_dev?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    data:
+        mongodb:
+            first:
+                uri: mongodb://oaWork:@47.98.195.250:27017/nidcai-oa?authMechanism=MONGODB-CR
+            second:
+                uri: mongodb://work:@47.98.195.250:27017/nidcai?authMechanism=MONGODB-CR
+mybatis:
+    mapper-locations: classpath:mapping/*.xml
+    type-aliases-package: com.nidecai.managerndc.entity
+
+mapper:
+    mappers: tk.mybatis.mapper.common.Mapper
+    notEmpty: true
+    identity: MYSQL
+
+pagehelper:
+    helperDialect:  mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+upload:
+    catalogue: /mnt/webData/upload/temp/
+    httpCatalogue: /upload/temp/
+    maxFileSize: 30720KB
+    maxRequestSize: 102400KB

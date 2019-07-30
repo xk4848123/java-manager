@@ -1,8 +1,11 @@
 package com.nidecai.managerndc.service;
 
+import java.util.List;
+import java.util.Map;
+
 public interface RiderPromotionService {
 
 	
-	void getPromotionNum(String startTime,String endTime,Integer rid);
+	List<Map<String, Object>> getPromotionNum(Integer days,Integer rid);
 	
 }
