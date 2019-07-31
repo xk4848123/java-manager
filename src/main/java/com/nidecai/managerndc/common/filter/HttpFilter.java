@@ -36,7 +36,7 @@ public class HttpFilter implements Filter {
         ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletRequest.getServletContext());
         CVStoreService cVStoreService = (CVStoreService) applicationContext.getBean("cVStoreService");
         Map<String, String> cvorderUrlMap = (Map<String, String>) applicationContext.getBean("cvordermap");
-        if (servletRequest.getParameter("loginToken") != null) {
+        if (servletRequest.getParameter("login_token") != null) {
             List<String> permissions = cVStoreService.getPermissionsByToken(servletRequest.getParameter("loginToken"));
             permissions.add("riderpromotionnum");
             if (permissions != null && permissions.size() != 0) {
