@@ -55,7 +55,13 @@ public class RiderPromotionController {
     		//数据的长度
     		Integer resultSize = result.size();
     		Integer fromIndex = (page - 1) * limit;
+    		if (fromIndex > resultSize) {
+    			throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "参数超出范围");
+			}
     		Integer toIndex = page * limit;
+    		if (toIndex > resultSize) {
+				toIndex = resultSize;
+			}
     		ResultDTO<List<Map<String, Object>>> finalResult = new ResultDTO<List<Map<String, Object>>>();
     		finalResult.setTotal(resultSize);
     		finalResult.setData(result.subList(fromIndex, toIndex));
