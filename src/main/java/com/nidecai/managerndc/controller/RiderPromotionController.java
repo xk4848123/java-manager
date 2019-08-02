@@ -32,21 +32,25 @@ public class RiderPromotionController {
     @ConvenientStore(value = "riderpromotionnum")
     public ResultDTO<List<Map<String, Object>>> listOrder(@RequestParam(name = "rid", required = false) Integer rid,
     		@RequestParam(name = "days", required = false) Integer days,@RequestParam(name = "page", required = true) Integer page,
-    		@RequestParam(name = "limit", required = true) Integer limit
+    		@RequestParam(name = "limit", required = true) Integer limit,@RequestParam(name="begindate" , required = false) String beginDate
     		) throws BusinessException {
     	try {
     		if (days != null && (days > 180 || days < 1)) {
     			throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "参数超出范围");
 			}
-    		Integer redisTag = days;
-    		if (redisTag == null) {
-    			redisTag = 0;
+    		String redisKey = "";
+    		if (beginDate != null) {
+    			redisKey = "riderpromotion_" + beginDate;
+			}else if (days != null) {
+				redisKey = "riderpromotion_" + days;
 			}
-    		String redisKey = "riderpromotion_" + redisTag;
+    		else {
+    			redisKey = "riderpromotion_0";
+			}
     		String cache = JedisClient.get(redisKey);
     		List<Map<String, Object>> result = null;
     		if (cache == null) {
-    			result = riderPromotionService.getPromotionNum(days, rid);
+    			result = riderPromotionService.getPromotionNum(days, rid,beginDate);
     			String cacheForStore = JSON.toJSONString(result);
     			JedisClient.set(redisKey, cacheForStore, JedisUtil.EXRP_HOUR);
 			}else {

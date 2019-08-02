@@ -1,9 +1,8 @@
 package com.nidecai.managerndc.common.codeutil;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DateUtil {
 	public static int getTimeBeforeDay(int days) {
@@ -13,16 +12,15 @@ public class DateUtil {
 		
 	}
 
-	public static void main(String[] args) {
-		Set<Integer> set = new HashSet<Integer>();
-		set.add(1);
-		set.add(2);
-		set.add(3);
-		List<Integer> list = new ArrayList<Integer>();
-		list.add(1);
-		list.add(2);
-		System.out.println(set);
-		set.removeAll(list);
-		System.out.println(set);
+	public static int getUnixTime(String dateStr) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		int unixTime = 0;
+		try {
+			long time = df.parse(dateStr).getTime();
+			unixTime = (int) (time / 1000);
+			
+		} catch (ParseException e) {
+		}
+		return unixTime;
 	}
 }

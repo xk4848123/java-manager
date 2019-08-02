@@ -1,6 +1,8 @@
 package com.nidecai.managerndc.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +39,7 @@ public class RiderPromotionServiceImpl implements RiderPromotionService {
 	private RiderOrderMapper riderOrderMapper;
 	
 	@Override
-	public List<Map<String, Object>> getPromotionNum(Integer days, Integer rid) {
+	public List<Map<String, Object>> getPromotionNum(Integer days, Integer rid,String beginDate) {
 		List<Integer> rids = new ArrayList<Integer>();
 		if (rid == null) {
 			Example example = new Example(RiderUser.class);
@@ -69,10 +71,10 @@ public class RiderPromotionServiceImpl implements RiderPromotionService {
 			}
 		}
 		List<Map<String, Object>> resList = new ArrayList<Map<String,Object>>();
-		if (days != null) {
+		int ctime =  getCtime(days, beginDate);
+		if (ctime != 0) {
 			for (Integer ridforStatas : intermediateResult.keySet()) {// keySet获取map集合key的集合  然后在遍历key即可
 				Set<Integer> userListOfRid = intermediateResult.get(ridforStatas);//
-			int ctime = DateUtil.getTimeBeforeDay(days);	
 			List<Integer> oldUser = riderOrderMapper.getOldUser(ctime, userListOfRid);
 			userListOfRid.removeAll(oldUser);
 			Integer newUserNum = 0;
@@ -121,53 +123,26 @@ public class RiderPromotionServiceImpl implements RiderPromotionService {
 			}
 		}
 		if (resList.size() != 0) {
-			List<Map<String, Object>> lMaps = new ArrayList<Map<String,Object>>();
-			for (int j = 0; j < 3; j++) {
-				Integer max = -1;
-				Integer maxRid = 0;
-				String maxRidName = "";
-				String maxRidPhone = "";
-//				List<Integer> ridsNeedToClear = new ArrayList<Integer>();
-				for (int i = 0; i < resList.size(); i++) {
-					Map<String, Object> cres = resList.get(i);
-					Integer numInteger = (Integer) cres.get("num");
-					Integer crid = (Integer) cres.get("rid");
-					String riderName = (String) cres.get("riderName");
-					String riderPhone = (String) cres.get("riderPhone");
-					if (numInteger > max) {
-						max = numInteger;
-						maxRid = crid;
-						maxRidName = riderName;
-						maxRidPhone = riderPhone;
-					}
-				}
-				//最大的已经出来了
-				Map<String, Object> maxMap = new HashMap<String, Object>();
-				maxMap.put("num", max);
-				maxMap.put("rid", maxRid);
-				maxMap.put("riderName", maxRidName);
-				maxMap.put("riderPhone", maxRidPhone);
-				lMaps.add(maxMap);
-				resList.remove(maxMap);
+		Collections.sort(resList, new Comparator<Map<String, Object>>() {
+			@Override
+			public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+				Integer o1Num = (Integer) o1.get("num");
+				Integer o2Num = (Integer) o2.get("num");
+				return o2Num - o1Num;
 			}
-			lMaps.addAll(resList);
-			return lMaps;
-		}else {
-			return resList;
+        });
 		}
+		return resList;
 	
 	}
-	public static void main(String[] args) {
-		List<Map<String,Integer>> list = new ArrayList<Map<String,Integer>>();
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("32", 123);
-		list.add(map);
-		Map<String, Integer> map2 = list.get(0);
-		System.out.println(map2);
-		list.remove(0);
-		System.out.println(list);
-		System.out.println(map2);
-	}
-	
+    private int getCtime(Integer days,String beginDate) {
+    	if (beginDate != null) {
+			return DateUtil.getUnixTime(beginDate);
+		}
+    	if (days != null) {
+			return DateUtil.getTimeBeforeDay(days);
+		}
+    	return 0;
+    }
 
 }
