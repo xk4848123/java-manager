@@ -37,7 +37,7 @@ public class HttpFilter implements Filter {
         CVStoreService cVStoreService = (CVStoreService) applicationContext.getBean("cVStoreService");
         Map<String, String> cvorderUrlMap = (Map<String, String>) applicationContext.getBean("cvordermap");
         if (servletRequest.getParameter("login_token") != null) {
-            List<String> permissions = cVStoreService.getPermissionsByToken(servletRequest.getParameter("loginToken"));
+            List<String> permissions = cVStoreService.getPermissionsByToken(servletRequest.getParameter("login_token"));
             if (permissions != null && permissions.size() != 0) {
                 HttpServletRequest request = (HttpServletRequest) servletRequest;
                 //获取当前访问的url
