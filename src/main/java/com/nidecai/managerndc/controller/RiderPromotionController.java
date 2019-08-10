@@ -16,6 +16,7 @@ import com.nidecai.managerndc.common.annoation.ConvenientStore;
 import com.nidecai.managerndc.common.codeutil.CommonMessageEnum;
 import com.nidecai.managerndc.common.codeutil.JedisClient;
 import com.nidecai.managerndc.common.codeutil.JedisUtil;
+import com.nidecai.managerndc.common.codeutil.ResultUtil;
 import com.nidecai.managerndc.common.entitycommon.ResultDTO;
 import com.nidecai.managerndc.service.RiderPromotionService;
 
@@ -73,6 +74,27 @@ public class RiderPromotionController {
     		finalResult.setCode(CommonMessageEnum.SUCCESS.getCode());
     		finalResult.setMsg(CommonMessageEnum.SUCCESS.getMsg());
     		return finalResult;
+		    } catch (Exception e) {
+			throw new BusinessException(CommonMessageEnum.SERVERERR.getCode(), e.getMessage());
+		}
+
+    }
+    
+    
+    
+    @RequestMapping(value = "/getpromotionriders" ,method = RequestMethod.GET)
+    @ConvenientStore(value = "personnelspecific")
+    public ResultDTO<Object> getPromotionRiders(@RequestParam(name="begindate" , required = false) String beginDate,
+    		@RequestParam(name="enddate" , required = false) String endDate
+    		) throws BusinessException {
+    	try {
+    		if (beginDate == null && endDate != null) {
+    			throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "参数缺失");
+			}
+           if (beginDate != null && endDate == null) {
+        	   throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "参数缺失");
+			}
+    		return ResultUtil.getSuccess(riderPromotionService.getEveryRiderPromotion(beginDate, endDate));
 		    } catch (Exception e) {
 			throw new BusinessException(CommonMessageEnum.SERVERERR.getCode(), e.getMessage());
 		}

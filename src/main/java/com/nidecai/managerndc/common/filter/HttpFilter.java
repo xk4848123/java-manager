@@ -7,8 +7,6 @@ import com.nidecai.managerndc.service.CVStoreService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +30,18 @@ public class HttpFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    	System.out.println(servletRequest.getClass());
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletRequest.getServletContext());
         CVStoreService cVStoreService = (CVStoreService) applicationContext.getBean("cVStoreService");
         Map<String, String> cvorderUrlMap = (Map<String, String>) applicationContext.getBean("cvordermap");
         if (servletRequest.getParameter("login_token") != null) {
             List<String> permissions = cVStoreService.getPermissionsByToken(servletRequest.getParameter("login_token"));
+            //临时添加权限
+            permissions.add("personnelspecific");
+            permissions.add("getphoneverifycode");
             if (permissions != null && permissions.size() != 0) {
+            	
                 HttpServletRequest request = (HttpServletRequest) servletRequest;
                 //获取当前访问的url
                 String requestURI = request.getRequestURI();

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,22 +28,25 @@ public class OrderUrlInitVerify {
       @Bean("cvordermap")
       public  Map<String,String> init(){
           Map<String,String> urlMap = new HashMap<String,String>();
-          List<String> controllerList= null;
-          RequestMapping controllerAnnotation=null;
           Method[] methods=null;
           String keyAnnotation="";
           try {
-              controllerList = PackageClass.getClassNamefFromPachage("com.nidecai.managerndc.controller");
+        	  List<String> controllerList = PackageClass.getClassNamefFromPachage("com.nidecai.managerndc.controller");
               for (String controllerClass : controllerList) {
-                    if (controllerClass !=null){
                         Class<?> controller = Class.forName(controllerClass);
                         methods = controller.getMethods();
-                        controllerAnnotation = controller.getAnnotation(RequestMapping.class);
-                        if (controllerAnnotation != null){
-                            String[] controllerValue = controllerAnnotation.value();
-                            keyAnnotation=controllerValue[0];
+                        keyAnnotation = controller.getAnnotation(RequestMapping.class).value()[0];
+                        //循环获取方法上的注解
+                        for (Method method : methods) {
+                             RequestMapping methodAnnoation = method.getAnnotation(RequestMapping.class);
+                             ConvenientStore convenientStoreAnnoation=method.getAnnotation(ConvenientStore.class);
+                             String valueAnnotaion ="";
+                             if (methodAnnoation !=null){
+                                  String[] methodValue=  methodAnnoation.value();
+                                  valueAnnotaion = methodValue[0];
+                                  urlMap.put(keyAnnotation+valueAnnotaion,convenientStoreAnnoation.value());
+                             }
                         }
-                    }
               }
           } catch (IOException e) {
               e.printStackTrace();
@@ -50,17 +54,7 @@ public class OrderUrlInitVerify {
               e.printStackTrace();
           }
 
-          //循环获取方法上的注解
-          for (Method method : methods) {
-               RequestMapping methodAnnoation = method.getAnnotation(RequestMapping.class);
-               ConvenientStore convenientStoreAnnoation=method.getAnnotation(ConvenientStore.class);
-               String valueAnnotaion ="";
-               if (methodAnnoation !=null){
-                    String[] methodValue=  methodAnnoation.value();
-                    valueAnnotaion = methodValue[0];
-                    urlMap.put(keyAnnotation+valueAnnotaion,convenientStoreAnnoation.value());
-               }
-          }
+      
            return  urlMap;
     }
 

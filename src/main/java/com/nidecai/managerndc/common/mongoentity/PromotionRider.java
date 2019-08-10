@@ -9,6 +9,7 @@ public class PromotionRider {
 	 private String id;
 	 private Integer newUid;
 	 private Integer rid;
+	 private String name;
 	public String getId() {
 		return id;
 	}
@@ -26,6 +27,12 @@ public class PromotionRider {
 	}
 	public void setRid(Integer rid) {
 		this.rid = rid;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	 
