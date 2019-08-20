@@ -2,13 +2,15 @@ package com.nidecai.managerndc.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import javax.persistence.*;
 
 @Table(name = "hm_rider_order")
 public class RiderOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private BigInteger id;
 
     /**
      * 配送订单
@@ -169,14 +171,14 @@ public class RiderOrder implements Serializable {
     /**
      * @return id
      */
-    public Integer getId() {
+    public BigInteger getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

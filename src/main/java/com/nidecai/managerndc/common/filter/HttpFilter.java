@@ -40,6 +40,7 @@ public class HttpFilter implements Filter {
             //临时添加权限
             permissions.add("personnelspecific");
             permissions.add("getphoneverifycode");
+            permissions.add("createData");
             if (permissions != null && permissions.size() != 0) {
             	
                 HttpServletRequest request = (HttpServletRequest) servletRequest;

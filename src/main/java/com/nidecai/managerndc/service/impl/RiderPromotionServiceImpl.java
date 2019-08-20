@@ -42,7 +42,7 @@ public class RiderPromotionServiceImpl implements RiderPromotionService {
 	private RiderOrderMapper riderOrderMapper;
 
 	@Override
-	public List<Map<String, Object>> getPromotionNum(Integer days, Integer rid, String beginDate) {
+	public List<Map<String, Object>> getPromotionNum(Integer days, Integer rid, String beginDate,String enddate) {
 		List<Integer> rids = new ArrayList<Integer>();
 		if (rid == null) {
 			Example example = new Example(RiderUser.class);
@@ -151,7 +151,7 @@ public class RiderPromotionServiceImpl implements RiderPromotionService {
 	@Override
 	public HashMap<String, Integer> getEveryRiderPromotion(String beginDate, String endDate) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Criteria criteria = Criteria.where("order").exists(true).and("createTime").gte(beginDate)
+		Criteria criteria = Criteria.where("order").gte(beginDate)
 				.lt(endDate);
 		Query query = new Query(criteria);
 		List<PromotionRider> promotionRiders = mongoTemplate.find(query, PromotionRider.class);
