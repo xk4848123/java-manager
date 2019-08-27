@@ -1,8 +1,7 @@
 package com.nidecai.managerndc.service;
 
-import com.nidecai.managerndc.ExceptionHandle.BusinessException;
 
-import java.util.List; /**
+ /**
  * @author river
  * @title: CloseUpShop
  * @projectName manager-ndc
@@ -11,5 +10,5 @@ import java.util.List; /**
  */
 public interface CloseUpShopService  {
 
-    void closeShop() throws BusinessException;
+    void closeShop();
 }

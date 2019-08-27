@@ -2,12 +2,12 @@ package com.nidecai.managerndc.service.impl;
 
 import com.nidecai.managerndc.ExceptionHandle.BusinessException;
 import com.nidecai.managerndc.common.codeutil.CommonMessageEnum;
+import com.nidecai.managerndc.common.codeutil.LoggingUtil;
 import com.nidecai.managerndc.entity.Market;
 import com.nidecai.managerndc.entity.Shopown;
 import com.nidecai.managerndc.mapper.MarketMapper;
 import com.nidecai.managerndc.mapper.ShopownMapper;
 import com.nidecai.managerndc.service.CloseUpShopService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,7 +23,6 @@ import java.util.*;
  * @date 2019/8/2613:19
  */
 @Service
-@Slf4j
 public class CloseUpShopServiceImpl implements CloseUpShopService {
     @Autowired
     private MarketMapper marketMapper;
@@ -31,23 +30,20 @@ public class CloseUpShopServiceImpl implements CloseUpShopService {
     private ShopownMapper shopownMapper;
 
     @Override
-    public void closeShop() throws BusinessException {
+    public void closeShop()  {
+    	//获取当前系统日期时间
+        Long currentTimeMillis = System.currentTimeMillis();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        String currentFormat = simpleDateFormat.format(currentTimeMillis);
+        String[] currentHourMin = currentFormat.split(":");
+        LoggingUtil.i( currentFormat + "关店任务开始");
         Market market = new Market();
         market.setState(new Byte("1"));
         List<Market> marketList = marketMapper.selectMarket(market.getState());
-        if (CollectionUtils.isEmpty(marketList)) {
-            throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "无菜场存在");
-        }
         for (Market hmMarket : marketList) {
             try {
                 //菜场关店时间
                 String marketEndtime = hmMarket.getEndtime();
-                //获取当前系统日期时间
-                Long currentTimeMillis = System.currentTimeMillis();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String currentFormat = simpleDateFormat.format(currentTimeMillis);
-                String[] currentTime = currentFormat.split(" ");
-                String[] currentHourMin = currentTime[1].split(":");
                 String[] marketEndHourMin = marketEndtime.split(":");
                 if (currentHourMin[0].equals(marketEndHourMin[0]) && currentHourMin[1].equals(marketEndHourMin[1]))
                  {
@@ -68,5 +64,10 @@ public class CloseUpShopServiceImpl implements CloseUpShopService {
                 e.printStackTrace();
             }
         }
+        currentTimeMillis = System.currentTimeMillis();
+        currentFormat = simpleDateFormat.format(currentTimeMillis);
+        LoggingUtil.i( currentFormat + "关店任务结束");
+        //释放对象
+        currentFormat = null;
     }
 }

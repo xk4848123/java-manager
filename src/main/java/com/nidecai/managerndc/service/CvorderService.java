@@ -2,8 +2,6 @@ package com.nidecai.managerndc.service;
 
 import com.github.pagehelper.PageInfo;
 import com.nidecai.managerndc.entity.Cvorder;
-import com.nidecai.managerndc.entity.OrderAddress;
-import com.nidecai.managerndc.entity.RiderUser;
 
 import java.util.List;
 

@@ -13,7 +13,9 @@ spring:
 mybatis:
     mapper-locations: classpath:mapping/*.xml
     type-aliases-package: com.nidecai.managerndc.entity
-
+     ##开启驼峰映射
+    configuration:
+        map-underscore-to-camel-case: true
 mapper:
     mappers: tk.mybatis.mapper.common.Mapper
     notEmpty: true

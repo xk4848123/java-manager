@@ -12,7 +12,7 @@ public interface ShopownMapper extends Mapper<Shopown>{
     @Select("SELECT *  FROM  hm_shopown WHERE marketid = #{hmMarketId}")
     List<Shopown> selectShown(Integer hmMarketId);
 
-    @Update("UPDATE hm_shopown  SET status = #{status}")
+    @Update("UPDATE hm_shopown  SET status = #{status} where status = 0")
     int updateStatus(Integer status);
 
 }
