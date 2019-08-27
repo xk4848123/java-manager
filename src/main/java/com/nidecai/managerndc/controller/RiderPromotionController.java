@@ -69,7 +69,6 @@ public class RiderPromotionController {
 					}
 					
 				}
-    			
 			}else {
 				result = JSON.parseObject(cache, List.class);
 			}
