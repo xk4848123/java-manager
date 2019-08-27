@@ -54,9 +54,8 @@ public class CloseUpShopServiceImpl implements CloseUpShopService {
                         throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "无商户存在");
                     }
                     for (Shopown shopown : shopowns) {
-                        if (shopown.getExamine() == 1 && shopown.getIsShow()==1 &&"1".equals(shopown.getType().toString())) {
-                            shopown.setStatus(1);
-                            shopownMapper.updateStatus(shopown.getStatus());
+                        if (shopown.getExamine() == 1 && shopown.getIsShow()==1 && shopown.getType() == 1) {
+                            shopownMapper.updateStatus(1,shopown.getPid());
                         }
                     }
                 }
