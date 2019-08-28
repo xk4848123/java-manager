@@ -1,16 +1,11 @@
 package com.nidecai.managerndc.service.impl;
 
-import com.nidecai.managerndc.ExceptionHandle.BusinessException;
-import com.nidecai.managerndc.common.codeutil.CommonMessageEnum;
-import com.nidecai.managerndc.common.codeutil.LoggingUtil;
 import com.nidecai.managerndc.entity.Market;
-import com.nidecai.managerndc.entity.Shopown;
 import com.nidecai.managerndc.mapper.MarketMapper;
 import com.nidecai.managerndc.mapper.ShopownMapper;
 import com.nidecai.managerndc.service.CloseUpShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,7 +31,6 @@ public class CloseUpShopServiceImpl implements CloseUpShopService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         String currentFormat = simpleDateFormat.format(currentTimeMillis);
         String[] currentHourMin = currentFormat.split(":");
-        LoggingUtil.i( currentFormat + "关店任务开始");
         Market market = new Market();
         market.setState(new Byte("1"));
         List<Market> marketList = marketMapper.selectMarket(market.getState());
@@ -49,15 +43,7 @@ public class CloseUpShopServiceImpl implements CloseUpShopService {
                  {
                     //获取菜场下的所有对应的店铺
                     Integer hmMarketId = hmMarket.getId();
-                    List<Shopown> shopowns = shopownMapper.selectShown(hmMarketId);
-                    if (CollectionUtils.isEmpty(shopowns)) {
-                        throw new BusinessException(CommonMessageEnum.FAIL.getCode(), "无商户存在");
-                    }
-                    for (Shopown shopown : shopowns) {
-                        if (shopown.getExamine() == 1 && shopown.getIsShow()==1 && shopown.getType() == 1) {
-                            shopownMapper.updateStatus(1,shopown.getPid());
-                        }
-                    }
+                    shopownMapper.updateStatus(hmMarketId);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,7 +51,6 @@ public class CloseUpShopServiceImpl implements CloseUpShopService {
         }
         currentTimeMillis = System.currentTimeMillis();
         currentFormat = simpleDateFormat.format(currentTimeMillis);
-        LoggingUtil.i( currentFormat + "关店任务结束");
         //释放对象
         currentFormat = null;
     }
