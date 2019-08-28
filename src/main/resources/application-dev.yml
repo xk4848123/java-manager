@@ -4,6 +4,12 @@ spring:
         password: emarket@dev@-123
         url: jdbc:mysql://47.98.195.250:3306/emarket_dev?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
         driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource    
+        hikari:
+            minimum-idle: 5
+            maximum-pool-size: 15
+            max-lifetime: 60000
+            connection-test-query: SELECT 1
     data:
         mongodb:
             first:
