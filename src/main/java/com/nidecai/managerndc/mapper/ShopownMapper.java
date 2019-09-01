@@ -14,7 +14,7 @@ public interface ShopownMapper extends Mapper<Shopown>{
     @Select("SELECT *  FROM  hm_shopown WHERE marketid = #{hmMarketId}")
     List<Shopown> selectShown(Integer hmMarketId);
 
-    @Update("UPDATE hm_shopown  SET status = #{status} where status = 0 and pid = #{pid}")
-    int updateStatus(@Param("status") Integer status,@Param("pid") Integer pid);
+    @Update("UPDATE hm_shopown  SET status = 1 where status = 0 and marketid = #{marketid} and type = 1 and is_show = 1 and examine = 1")
+    int updateStatus(@Param("marketid") Integer marketId);
 
 }
