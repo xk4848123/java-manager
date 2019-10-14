@@ -18,6 +18,7 @@ import com.nidecai.managerndc.mapper.RiderOrderMapper;
 import com.nidecai.managerndc.service.SupportService;
 
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class SupportServiceImpl implements SupportService{
@@ -45,12 +46,25 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	@Transactional
-	public void copyOrder(Integer sCtime, Integer eCtime, Integer days, Integer orderNum) {
+	public void copyOrder(Integer sCtime, Integer eCtime, Integer days, Integer orderNum
+			,Integer marketId,Double riderPay,Double minOrigin,Double maxOrigin) {
 		Integer queryBeforeDaysTime = days * 24 * 60 * 60;
 		sCtime = sCtime - queryBeforeDaysTime;
 		eCtime = eCtime - queryBeforeDaysTime;
 		Example example = new Example(RiderOrder.class);
-		example.createCriteria().andCondition("ctime<", eCtime).andCondition("ctime>", sCtime).andCondition("pay_status=", 1);
+		Criteria criteria1 = example.createCriteria().andCondition("ctime<", eCtime).andCondition("ctime>", sCtime).andCondition("pay_status=", 1);
+		if (marketId != null) {
+			criteria1.andCondition("marketid=", marketId);
+		}
+		if (riderPay != null) {
+			criteria1.andCondition("rider_pay =", riderPay);
+		}
+		if (minOrigin != null) {
+			criteria1.andCondition("original_price >=", minOrigin);
+		}
+		if (maxOrigin != null) {
+			criteria1.andCondition("original_price <=", maxOrigin);
+		}
 		Integer waitCopyOrderNum = riderOrderMapper.selectCountByExample(example);
 		LoggingUtil.i("待拷贝单量为：" + waitCopyOrderNum);
 		if (waitCopyOrderNum.compareTo(orderNum) < 0) {
@@ -61,8 +75,9 @@ public class SupportServiceImpl implements SupportService{
 		Random r=new Random();
 		//查询范围单子
 		Example example1 = new Example(RiderOrder.class);
-		example1.createCriteria().andCondition("ctime<", eCtime).andCondition("ctime>", sCtime).andCondition("pay_status=", 1);
+		Criteria criteria2 = example1.createCriteria().andCondition("ctime<", eCtime).andCondition("ctime>", sCtime).andCondition("pay_status=", 1);
 		List<RiderOrder> rorders = riderOrderMapper.selectByExample(example1);
+		//生成总单量
 		Integer a = 0;
 		for (RiderOrder crorder : rorders) {
 			if (r.nextFloat() > ad) {
@@ -75,7 +90,6 @@ public class SupportServiceImpl implements SupportService{
 			crorder.setPayTime( crorder.getPayTime() == null?null:crorder.getPayTime()+ queryBeforeDaysTime);
 			crorder.setServiceTime( crorder.getServiceTime() == null?null:crorder.getServiceTime()+ queryBeforeDaysTime);
 			BigInteger roid = crorder.getId();
-			LoggingUtil.i(roid + "---");
 			crorder.setId(null);
 			riderOrderMapper.insertSelective(crorder);
 			LoggingUtil.i("newroid" + crorder.getId());
