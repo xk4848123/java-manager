@@ -3,6 +3,8 @@ package com.nidecai.managerndc.common.codeutil;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class DateUtil {
 	public static int getTimeBeforeDay(int days) {
@@ -22,5 +24,13 @@ public class DateUtil {
 		} catch (ParseException e) {
 		}
 		return unixTime;
+	}
+	
+	public static String getLastSaturday() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DAY_OF_WEEK,7);
+		calendar.add(Calendar.WEEK_OF_YEAR, -1);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return df.format(calendar.getTime());
 	}
 }

@@ -17,4 +17,6 @@ public interface RiderOrderMapper extends Mapper<RiderOrder> {
 	List<Integer> getOldUser(@Param("ctime") Integer ctime,@Param("set") Set<Integer> idList);
 	
 	Integer getOldSumOfRidByCtime(@Param("ctime") Integer ctime,@Param("list") List<Integer> idList);
+	
+	Integer getNewUserOrderNum(@Param("ctime") Integer ctime);
 }

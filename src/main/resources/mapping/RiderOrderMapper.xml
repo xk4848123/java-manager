@@ -111,4 +111,9 @@
 	) temp
   </select>
   
+  <select id="getNewUserOrderNum" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM hm_rider_order WHERE ctime > #{ctime} AND uid in ( SELECT id FROM hm_user WHERE ctime > #{ctime} )
+  </select>
+  
+  
 </mapper>
