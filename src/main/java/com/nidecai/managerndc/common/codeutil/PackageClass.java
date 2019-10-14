@@ -15,7 +15,7 @@ import java.util.*;
 public class PackageClass {
 
     public static List<String> getClassNamefFromPachage(String packageName) throws IOException, ClassNotFoundException {
-        Enumeration<URL> iterator = Thread.currentThread().getContextClassLoader().getResources(packageName.replace(".", "/"));
+        Enumeration<URL> iterator = Thread.currentThread().getContextClassLoader().getResources(packageName.replace("\\.", File.separator));
         List<String>list = new ArrayList<String>();
 
         URL url = null;
@@ -33,7 +33,7 @@ public class PackageClass {
                     fls= file.listFiles();
                     for(File fl :fls) {
                         className = fl.getName();
-                        className = className.substring(0,className.lastIndexOf("."));
+                        className = className.substring(0,className.lastIndexOf("\\."));
                         classFullName = packageName+"."+className;
                         c=Thread.currentThread().getContextClassLoader().loadClass(classFullName);
                         list.add(classFullName);
