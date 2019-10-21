@@ -13,4 +13,7 @@ public interface MarketMapper extends Mapper<Market> {
     @Select("SELECT  * FROM  hm_market WHERE state = #{state} ")
     List<Market>  selectMarket(Byte state);
 
+    @Select("SELECT  id FROM  hm_market WHERE state = #{state} ")
+    List<Integer>  selectMarketId(Byte state);
+
 }

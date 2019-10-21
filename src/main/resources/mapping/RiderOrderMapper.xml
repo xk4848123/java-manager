@@ -114,6 +114,37 @@
   <select id="getNewUserOrderNum" resultType="java.lang.Integer">
       SELECT COUNT(1) FROM hm_rider_order WHERE ctime > #{ctime} AND uid in ( SELECT id FROM hm_user WHERE ctime > #{ctime} )
   </select>
-  
-  
+
+	<resultMap id="BaseStatResultMap" type="com.nidecai.managerndc.common.entitycommon.MakertStatResultDTO">
+		<id column="marketid" jdbcType="INTEGER" property="marketId" />
+		<result column="order_num" jdbcType="INTEGER" property="orderNum"/>
+		<result column="order_pay" jdbcType="DECIMAL" property="orderPay"/>
+		<result column="order_rider_pay" jdbcType="DECIMAL" property="orderRiderPay"/>
+		<result column="order_coupon" jdbcType="DECIMAL" property="orderCoupon"/>
+		<result column="order_integral" jdbcType="DECIMAL" property="orderIntegral"/>
+		<result column="order_activity" jdbcType="DECIMAL" property="orderActivity"/>
+		<result column="order_vip_relief" jdbcType="DECIMAL" property="orderVipRelief"/>
+	</resultMap>
+
+
+	<select id="findMaketStatDay" resultMap="BaseStatResultMap">
+		SELECT
+			marketid,
+			count( 1 ) as order_num ,
+			sum( totalPrice ) as order_pay,
+			sum( rider_pay ) as order_rider_pay,
+			sum( coupon_price ) as order_coupon,
+			sum( integral ) / 1000 as order_integral,
+			sum( market_activity_price ) as order_activity,
+			sum( vip_relief ) as order_vip_relief
+		FROM
+			hm_rider_order
+		WHERE
+			pay_status = 1
+			AND (ctime BETWEEN #{timeStart} AND #{timeEnd})
+		GROUP BY
+			marketid
+
+	</select>
+
 </mapper>

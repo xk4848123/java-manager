@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class DateUtil {
@@ -33,4 +34,20 @@ public class DateUtil {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		return df.format(calendar.getTime());
 	}
+
+	public static String getCurrentTimeByDay(Date date) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String format = df.format(date);
+        return format;
+	}
+    public static String getCurrentTimeByMonth(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM");
+        String format = df.format(date);
+        return format;
+    }
+    public static String getCurrentTimeByYear(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyy");
+        String format = df.format(date);
+        return format;
+    }
 }

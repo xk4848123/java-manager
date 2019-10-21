@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nidecai.managerndc.mapper.MakertStatTagMapper">
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.MakertStatTag">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="day_date" jdbcType="VARCHAR" property="dayDate" />
+    <result column="month_date" jdbcType="VARCHAR" property="monthDate" />
+    <result column="year_date" jdbcType="VARCHAR" property="yearDate" />
+  </resultMap>
+</mapper>

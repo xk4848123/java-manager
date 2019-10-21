@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nidecai.managerndc.mapper.MakertStatYearMapper">
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.MakertStatYear">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="marketid" jdbcType="INTEGER" property="marketid" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="order_pay" jdbcType="DECIMAL" property="orderPay" />
+    <result column="order_rider_pay" jdbcType="DECIMAL" property="orderRiderPay" />
+    <result column="order_coupon" jdbcType="DECIMAL" property="orderCoupon" />
+    <result column="order_integral" jdbcType="DECIMAL" property="orderIntegral" />
+    <result column="order_activity" jdbcType="DECIMAL" property="orderActivity" />
+    <result column="order_vip_relief" jdbcType="DECIMAL" property="orderVipRelief" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+  </resultMap>
+</mapper>
