@@ -11,6 +11,7 @@ import com.nidecai.managerndc.service.CloseUpShopService;
 
 import java.text.SimpleDateFormat;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,10 @@ public class MarketShedule {
         instanceDay.set(Calendar.DATE, i - 1);
 
         List<MakertStatTag> makertStatTags = makertStatTagMapper.selectAll();
-        MakertStatTag makertStatTag = makertStatTags.get(makertStatTags.size() - 1);
+        MakertStatTag makertStatTag = null;
+        if (makertStatTags.size() != 0) {
+        	makertStatTag = makertStatTags.get(makertStatTags.size() - 1);
+		}
         SimpleDateFormat simpleDateFormatMonth = new SimpleDateFormat("yyyy-MM");
         //获取上一个月月份
         Calendar instanceMonth = Calendar.getInstance();
@@ -53,23 +57,33 @@ public class MarketShedule {
         instanceMonth.setTime(date);
         // 设置为上一个月
         instanceMonth.set(Calendar.MONTH, instanceMonth.get(Calendar.MONTH) - 1);
-        if (null != makertStatTag.getMonthDate() && !makertStatTag.getMonthDate().equals(simpleDateFormatMonth.format(instanceMonth.getTime()))) {
+        if (makertStatTag == null || ( makertStatTag.getMonthDate() != null && !makertStatTag.getMonthDate().equals(simpleDateFormatMonth.format(instanceMonth.getTime())))) {
             marketStatService.recordMarketStatMonth();
         }
-
-        SimpleDateFormat simpleDateFormatYear = new SimpleDateFormat("yyyy");
-        Calendar instanceYear = Calendar.getInstance();
-        instanceYear.setTime(date);
-        instanceYear.add(Calendar.YEAR, -1);
-        if (null != makertStatTag.getYearDate() && !makertStatTag.getYearDate().equals(simpleDateFormatYear.format(instanceYear.getTime()))) {
-            marketStatService.recordMarketStatYear();
-        }
+//暂且不进行年统计
+//        SimpleDateFormat simpleDateFormatYear = new SimpleDateFormat("yyyy");
+//        Calendar instanceYear = Calendar.getInstance();
+//        instanceYear.setTime(date);
+//        instanceYear.add(Calendar.YEAR, -1);
+//        if (makertStatTag == null || ( makertStatTag.getYearDate() != null  && !makertStatTag.getYearDate().equals(simpleDateFormatYear.format(instanceYear.getTime())))) {
+//            marketStatService.recordMarketStatYear();
+//        }
 
         MakertStatTag makertStatbean = new MakertStatTag();
         makertStatbean.setDayDate(simpleDateFormatDay.format(instanceDay.getTime()));
         makertStatbean.setMonthDate(simpleDateFormatMonth.format(instanceMonth.getTime()));
-        makertStatbean.setYearDate(simpleDateFormatYear.format(instanceYear.getTime()));
+        makertStatbean.setYearDate("2018");
         makertStatTagMapper.insertSelective(makertStatbean);
 
     }
+    
+    
+    public static void main(String[] args) {
+		
+    	List<String> list = new ArrayList<>();
+    	list.add("e");
+    	String string = list.get(list.size() - 1);
+    	System.out.println(string);
+    	
+	}
 }

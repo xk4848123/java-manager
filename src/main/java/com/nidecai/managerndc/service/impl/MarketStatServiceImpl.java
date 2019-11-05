@@ -67,7 +67,7 @@ public class MarketStatServiceImpl implements MarketStatService {
             List<MakertStatResultDTO> maketStatDay = riderOrderMapper.findMaketStatDay(timeStart, timeEnd);
             //查出所有状态为1的菜场.
             List<Integer> marketId = marketMapper.selectMarketId((byte) 1);
-            List list = new ArrayList();
+            List<Integer> list = new ArrayList<Integer>();
             for (MakertStatResultDTO makertStatResultDTO : maketStatDay) {
                 //判断昨天菜场是否下过单如果不等于则没有下过单.
                 MakertStatDay makertStatDay = new MakertStatDay();
@@ -157,7 +157,7 @@ public class MarketStatServiceImpl implements MarketStatService {
 
             //查出所有状态为1的菜场.
             List<Integer> marketId = marketMapper.selectMarketId((byte) 1);
-            List list = new ArrayList();
+            List<Integer> list = new ArrayList<Integer> ();
             for (MakertStatResultDTO makertStatResultDTO : maketStatDay) {
                 //判断昨天菜场是否下过单如果不等于则没有下过单.
                 MakertStatMonth makertStatMonth = new MakertStatMonth();
