@@ -13,7 +13,7 @@ public interface MarketStatService {
     /**
      * 前一月的订单量
      */
-    void recordMarketStatMonth();
+    void recordMarketStatMonth(String lastMonthString);
 
     /**
      * 前一年的订单量

@@ -141,6 +141,7 @@
 			hm_rider_order
 		WHERE
 			pay_status = 1
+			AND is_delete = 0
 			AND (ctime BETWEEN #{timeStart} AND #{timeEnd})
 		GROUP BY
 			marketid

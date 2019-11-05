@@ -50,7 +50,7 @@ public class MarketStatServiceImpl implements MarketStatService {
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             date = calendar.getTime();
-            String accDate = format.format(date);    //上一个月时间为00：00：00开始
+            String accDate = format.format(date);  
             long timeStart = format.parse(accDate).getTime() / 1000;
 
             Date last = new Date();
@@ -62,7 +62,6 @@ public class MarketStatServiceImpl implements MarketStatService {
             calendarLast.set(Calendar.SECOND, 59);
             String end = format.format(calendarLast.getTime());
             long timeEnd = format.parse(end).getTime() / 1000;
-            String currentTime = DateUtil.getCurrentTimeByDay(new Date());
 
             List<MakertStatResultDTO> maketStatDay = riderOrderMapper.findMaketStatDay(timeStart, timeEnd);
             //查出所有状态为1的菜场.
@@ -91,7 +90,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatDay.setOrderIntegral(makertStatResultDTO.getOrderIntegral());
                 makertStatDay.setOrderActivity(makertStatResultDTO.getOrderActivity());
                 makertStatDay.setOrderVipRelief(makertStatResultDTO.getOrderVipRelief());
-                makertStatDay.setDate(currentTime);
+                makertStatDay.setDate(accDate.split(" ")[0]);
 
                 list.add(makertStatResultDTO.getMarketId());
                 makertStatDayMapper.insertSelective(makertStatDay);
@@ -107,7 +106,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatDay.setOrderIntegral(new BigDecimal(0));
                 makertStatDay.setOrderActivity(new BigDecimal(0));
                 makertStatDay.setOrderVipRelief(new BigDecimal(0));
-                makertStatDay.setDate(currentTime);
+                makertStatDay.setDate(accDate.split(" ")[0]);
                 makertStatDayMapper.insertSelective(makertStatDay);
             }
 
@@ -118,7 +117,7 @@ public class MarketStatServiceImpl implements MarketStatService {
     }
 
     @Override
-    public void recordMarketStatMonth() {
+    public void recordMarketStatMonth(String lastMonthString) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
@@ -151,7 +150,6 @@ public class MarketStatServiceImpl implements MarketStatService {
             date1 = c.getTime();
             String format1 = format.format(date1);
             long lastTimeEnd = (format.parse(format1).getTime() / 1000);
-            String currentTime = DateUtil.getCurrentTimeByMonth(new Date());
 
             List<MakertStatResultDTO> maketStatDay = riderOrderMapper.findMaketStatDay(lasetTimeStart, lastTimeEnd);
 
@@ -181,7 +179,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatMonth.setOrderIntegral(makertStatResultDTO.getOrderIntegral());
                 makertStatMonth.setOrderActivity(makertStatResultDTO.getOrderActivity());
                 makertStatMonth.setOrderVipRelief(makertStatResultDTO.getOrderVipRelief());
-                makertStatMonth.setDate(currentTime);
+                makertStatMonth.setDate(lastMonthString);
 
                 list.add(makertStatResultDTO.getMarketId());
                 makertStatMonthMapper.insertSelective(makertStatMonth);
@@ -197,7 +195,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatMonth.setOrderIntegral(new BigDecimal(0));
                 makertStatMonth.setOrderActivity(new BigDecimal(0));
                 makertStatMonth.setOrderVipRelief(new BigDecimal(0));
-                makertStatMonth.setDate(currentTime);
+                makertStatMonth.setDate(lastMonthString);
                 makertStatMonthMapper.insertSelective(makertStatMonth);
             }
 

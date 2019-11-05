@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import com.nidecai.managerndc.service.CloseUpShopService;
 
 import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,10 +29,10 @@ public class MarketShedule {
 
     @Scheduled(cron = "0 */1 * * * ?")
     public void closeShop() {
-        closeUpShopService.closeShop();
+//        closeUpShopService.closeShop();
     }
 
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(cron = "0 40 9 * * ?")
     public void cronTime() {
 
         marketStatService.recordMarketStatDay();
@@ -57,8 +56,9 @@ public class MarketShedule {
         instanceMonth.setTime(date);
         // 设置为上一个月
         instanceMonth.set(Calendar.MONTH, instanceMonth.get(Calendar.MONTH) - 1);
-        if (makertStatTag == null || ( makertStatTag.getMonthDate() != null && !makertStatTag.getMonthDate().equals(simpleDateFormatMonth.format(instanceMonth.getTime())))) {
-            marketStatService.recordMarketStatMonth();
+        String lastMonthString = simpleDateFormatMonth.format(instanceMonth.getTime());
+        if (makertStatTag == null || ( makertStatTag.getMonthDate() != null && !makertStatTag.getMonthDate().equals(lastMonthString))) {
+            marketStatService.recordMarketStatMonth(lastMonthString);
         }
 //暂且不进行年统计
 //        SimpleDateFormat simpleDateFormatYear = new SimpleDateFormat("yyyy");
