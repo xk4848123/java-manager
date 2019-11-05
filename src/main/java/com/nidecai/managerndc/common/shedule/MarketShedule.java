@@ -32,7 +32,7 @@ public class MarketShedule {
         closeUpShopService.closeShop();
     }
 
-    @Scheduled(cron = "0 50 9 * * ?")
+    @Scheduled(cron = "0 30 8 * * ?")
     public void cronTime() {
 
         marketStatService.recordMarketStatDay();
