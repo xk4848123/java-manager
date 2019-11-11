@@ -148,4 +148,78 @@
 
 	</select>
 
+<select id="selectList" resultType="java.util.Map">
+   SELECT GROUP_CONCAT(DISTINCT(uid)) uidC,GROUP_CONCAT(DISTINCT(rid)) ridC,GROUP_CONCAT(DISTINCT(marketid)) mC
+   ,SUM(coupon_price) cp,SUM(market_activity_price) map,SUM(integral)/100 integralp,SUM(vip_relief) vipp
+   ,SUM(rider_pay) rp
+   FROM  
+  hm_rider_order WHERE  out_trade_no in
+  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+  or rider_sn
+  in
+   <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+</select>
+
+
+<select id="selectRiderName" resultType="java.lang.String">
+ SELECT name  FROM hm_rider_user WHERE rid in (${rid})
+  
+ 
+</select>
+
+<select id="selectMName" resultType="java.util.Map">
+
+SELECT hm_market.ename,a.num FROM 
+
+(SELECT marketid,COUNT(1) num FROM hm_rider_order WHERE out_trade_no in 
+  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+  or rider_sn
+  in
+   <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+  
+ GROUP BY marketid) as a,hm_market WHERE hm_market.id = a.marketid
+
+</select>
+
+<select id="selectUName" resultType="java.lang.String">
+  	SELECT phone FROM hm_user WHERE id in (${uid})
+</select>
+
+
+<select id="selectSName" resultType="java.util.Map">
+  SELECT CONCAT(hs.real_name,'(',hs.phone,')') sinfo,a.num from
+(SELECT pid ,COUNT(1) num FROM hm_order WHERE roid in(
+SELECT id FROM hm_rider_order WHERE rider_sn in
+  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+ OR out_trade_no in
+ <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+) GROUP BY pid) as a ,hm_shopown hs WHERE a.pid = hs.pid
+</select>
+
+
+<select id="selectSMName" resultType="java.util.Map">
+  SELECT hs.pid,hs.sname sinfo,hm.ename,a.num from
+(SELECT pid ,COUNT(1) num FROM hm_order WHERE roid in(
+SELECT id FROM hm_rider_order WHERE rider_sn in
+  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+ OR out_trade_no in
+ <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+) GROUP BY pid) as a ,hm_shopown hs,hm_market hm WHERE a.pid = hs.pid and hm.id = hs.marketid
+</select>
 </mapper>

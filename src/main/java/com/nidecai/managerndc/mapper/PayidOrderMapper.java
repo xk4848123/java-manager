@@ -16,4 +16,8 @@ import java.util.List;
 public interface PayidOrderMapper extends Mapper<PayidOrder> {
     @Select("SELECT  out_trade_no  FROM  hm_payid_order WHERE pay_id = #{id}")
     List<String> selectListPayOrder(String id);
+    
+    
+    @Select("SELECT hpo.out_trade_no FROM hm_pay_statistic hpsa,hm_payid_order hpo WHERE  hpsa.uid_count > 3 AND  hpo.pay_id =hpsa.id")
+    List<String> queryStore();
 }

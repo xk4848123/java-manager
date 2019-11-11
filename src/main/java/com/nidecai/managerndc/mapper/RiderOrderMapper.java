@@ -3,10 +3,10 @@ package com.nidecai.managerndc.mapper;
 import com.nidecai.managerndc.common.entitycommon.MakertStatResultDTO;
 import com.nidecai.managerndc.entity.RiderOrder;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface RiderOrderMapper extends Mapper<RiderOrder> {
@@ -23,8 +23,16 @@ public interface RiderOrderMapper extends Mapper<RiderOrder> {
 
     List<MakertStatResultDTO> findMaketStatDay(@Param("timeStart") Long timestart, @Param("timeEnd") Long timeEnd);
 
-    @Select("SELECT GROUP_CONCAT(DISTINCT(uid) FROM  hm_rider_order WHERE  out_trade_no in(#{stringListPayOrder}) ")
-    List<Integer> selectList(List<String> stringListPayOrder);
+    Map<String,Object> selectList(@Param("dramaIds") List<String> stringListPayOrder);
 
+    List<String> selectRiderName(@Param("rid") String rid);
 
+    List<Map<String, Object>> selectMName(@Param("dramaIds") List<String> stringListPayOrder);
+    
+    List<String> selectUName(@Param("uid") String uid);
+    
+    List<Map<String, Object>> selectSName(@Param("dramaIds") List<String> stringListPayOrder);
+    
+    List<Map<String, Object>> selectSMName(@Param("dramaIds") List<String> stringListPayOrder);
+    
 }
