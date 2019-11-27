@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nidecai.managerndc.mapper.UserCouponMapper">
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.UserCoupon">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="couponid" jdbcType="INTEGER" property="couponid" />
+    <result column="coupon" jdbcType="VARCHAR" property="coupon" />
+    <result column="ctime" jdbcType="INTEGER" property="ctime" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="numbers" jdbcType="INTEGER" property="numbers" />
+    <result column="start_time" jdbcType="INTEGER" property="startTime" />
+    <result column="end_time" jdbcType="INTEGER" property="endTime" />
+    <result column="is_new" jdbcType="INTEGER" property="isNew" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="model" jdbcType="INTEGER" property="model" />
+    <result column="is_active" jdbcType="TINYINT" property="isActive" />
+    <result column="level" jdbcType="TINYINT" property="level" />
+  </resultMap>
+</mapper>

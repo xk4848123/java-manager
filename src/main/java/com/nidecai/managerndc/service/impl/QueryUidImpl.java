@@ -2,12 +2,16 @@ package com.nidecai.managerndc.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
+import com.nidecai.managerndc.common.codeutil.DateUtil;
 import com.nidecai.managerndc.common.codeutil.MyStringUtils;
 import com.nidecai.managerndc.entity.PayStatistic;
+import com.nidecai.managerndc.entity.UserCoupon;
 import com.nidecai.managerndc.mapper.PayStatisticMapper;
 import com.nidecai.managerndc.mapper.PayidOrderMapper;
 import com.nidecai.managerndc.mapper.RiderOrderMapper;
+import com.nidecai.managerndc.mapper.UserCouponMapper;
 import com.nidecai.managerndc.service.QueryUid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +51,8 @@ public class QueryUidImpl implements QueryUid {
 	private PayidOrderMapper payidOrderMapper;
 	@Autowired
 	private RiderOrderMapper riderOrderMapper;
-	StringBuilder stringBuilder;
+	@Autowired
+	private UserCouponMapper userCouponMapper;
 
 	@Override
 	public void queryUidById() {
@@ -192,7 +198,32 @@ public class QueryUidImpl implements QueryUid {
 				System.out.println(howmany);
 				System.out.println(storeStat.toString());
 			}
-	} 
+	}
+
+
+	@Override
+	public void startGiveCoupon() {
+		String chooseUid = "SELECT id FROM hm_user WHERE phone in (SELECT phone FROM hm_phone)";
+		List<Integer> uids = jdbcTemplate.queryForList(chooseUid,Integer.class);
+		int currentTime = DateUtil.getCurrentTime();
+		BigDecimal price = new BigDecimal("8");
+		for (Integer uid : uids) {
+			UserCoupon userCoupon = new UserCoupon();
+			userCoupon.setCoupon("5dddd6613c774518cb519e2f");
+			userCoupon.setUid(uid);
+			userCoupon.setCouponid(248);
+			userCoupon.setCtime(currentTime);
+			userCoupon.setUpdateTime(currentTime);
+			userCoupon.setStartTime(currentTime);
+			userCoupon.setEndTime(currentTime + 86400);
+			userCoupon.setType(1);
+			userCoupon.setPrice(price);
+			userCouponMapper.insertSelective(userCoupon);
+		}
+		
+	}
+	
+	
 	
 	
 }

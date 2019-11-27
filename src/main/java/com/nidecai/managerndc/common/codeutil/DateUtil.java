@@ -50,4 +50,7 @@ public class DateUtil {
         String format = df.format(date);
         return format;
     }
+    public static int getCurrentTime() {
+		return (int) (System.currentTimeMillis() / 1000);
+	}
 }

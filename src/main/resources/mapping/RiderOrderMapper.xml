@@ -193,6 +193,11 @@ SELECT hm_market.ename,a.num FROM
   	SELECT phone FROM hm_user WHERE id in (${uid})
 </select>
 
+<select id="selectStorePhone" resultType="java.util.Map">
+  	SELECT phone,sname,real_name FROM hm_shopown WHERE phone in (${phone})
+</select>
+
+
 
 <select id="selectSName" resultType="java.util.Map">
   SELECT CONCAT(hs.real_name,'(',hs.phone,')') sinfo,a.num from
@@ -222,4 +227,19 @@ SELECT id FROM hm_rider_order WHERE rider_sn in
   </foreach>
 ) GROUP BY pid) as a ,hm_shopown hs,hm_market hm WHERE a.pid = hs.pid and hm.id = hs.marketid
 </select>
+   
+ <select id="getStoreOrderUser" resultType="java.util.Map">
+SELECT hs.pid,CONCAT(hs.sname,"|",hm.ename) sinfo,a.uids,a.num from 
+(SELECT pid,GROUP_CONCAT(uid) uids ,COUNT(1) num FROM hm_order WHERE roid in(
+SELECT id FROM hm_rider_order WHERE rider_sn in 
+ <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+ OR out_trade_no in 
+  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+    #{dramaId}
+  </foreach>
+ ) GROUP BY pid) AS a,hm_shopown hs,hm_market hm WHERE a.pid = hs.pid AND hs.marketid = hm.id	
+</select>
+
 </mapper>

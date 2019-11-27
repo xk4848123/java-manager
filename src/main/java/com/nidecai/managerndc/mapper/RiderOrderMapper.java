@@ -31,8 +31,12 @@ public interface RiderOrderMapper extends Mapper<RiderOrder> {
     
     List<String> selectUName(@Param("uid") String uid);
     
+    List<Map<String, Object>> selectStorePhone(@Param("phone") String uid);
+    
     List<Map<String, Object>> selectSName(@Param("dramaIds") List<String> stringListPayOrder);
     
     List<Map<String, Object>> selectSMName(@Param("dramaIds") List<String> stringListPayOrder);
+    
+    List<Map<String, Object>> getStoreOrderUser(@Param("dramaIds") List<String> stringListPayOrder);
     
 }

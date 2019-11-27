@@ -19,4 +19,7 @@ public interface QueryUid {
       
       void queryStore();
       
+      
+      void startGiveCoupon();
+      
 }
