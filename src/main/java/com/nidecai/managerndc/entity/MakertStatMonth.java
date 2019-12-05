@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
-@Table(name = "hm_makertstat_month")
+@Table(name = "hm_makertstat_day")
 public class MakertStatMonth implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,8 +57,11 @@ public class MakertStatMonth implements Serializable {
     @Column(name = "order_vip_relief")
     private BigDecimal orderVipRelief;
 
+    @Column(name = "order_commission_price")
+    private BigDecimal orderCommissionPrice;
+
     /**
-     * 存如:2019-10
+     * 存如:2019-10-14
      */
     private String date;
 
@@ -223,18 +226,32 @@ public class MakertStatMonth implements Serializable {
     }
 
     /**
-     * 获取存如:2019-10
+     * @return order_commission_price
+     */
+    public BigDecimal getOrderCommissionPrice() {
+        return orderCommissionPrice;
+    }
+
+    /**
+     * @param orderCommissionPrice
+     */
+    public void setOrderCommissionPrice(BigDecimal orderCommissionPrice) {
+        this.orderCommissionPrice = orderCommissionPrice;
+    }
+
+    /**
+     * 获取存如:2019-10-14
      *
-     * @return date - 存如:2019-10
+     * @return date - 存如:2019-10-14
      */
     public String getDate() {
         return date;
     }
 
     /**
-     * 设置存如:2019-10
+     * 设置存如:2019-10-14
      *
-     * @param date 存如:2019-10
+     * @param date 存如:2019-10-14
      */
     public void setDate(String date) {
         this.date = date;

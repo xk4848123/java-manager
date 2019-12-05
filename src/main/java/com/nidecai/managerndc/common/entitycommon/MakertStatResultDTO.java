@@ -29,6 +29,8 @@ public class MakertStatResultDTO implements Serializable {
 
     private BigDecimal orderVipRelief;
 
+    private BigDecimal orderCommissionPrice;
+    
     private String date;
 
 }

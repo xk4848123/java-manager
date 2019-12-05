@@ -57,6 +57,9 @@ public class MakertStatDay implements Serializable {
     @Column(name = "order_vip_relief")
     private BigDecimal orderVipRelief;
 
+    @Column(name = "order_commission_price")
+    private BigDecimal orderCommissionPrice;
+
     /**
      * 存如:2019-10-14
      */
@@ -220,6 +223,20 @@ public class MakertStatDay implements Serializable {
      */
     public void setOrderVipRelief(BigDecimal orderVipRelief) {
         this.orderVipRelief = orderVipRelief;
+    }
+
+    /**
+     * @return order_commission_price
+     */
+    public BigDecimal getOrderCommissionPrice() {
+        return orderCommissionPrice;
+    }
+
+    /**
+     * @param orderCommissionPrice
+     */
+    public void setOrderCommissionPrice(BigDecimal orderCommissionPrice) {
+        this.orderCommissionPrice = orderCommissionPrice;
     }
 
     /**

@@ -25,9 +25,11 @@ import org.springframework.util.CollectionUtils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author river
@@ -202,7 +204,7 @@ public class QueryUidImpl implements QueryUid {
 
 
 	@Override
-	public void startGiveCoupon() {
+	public void startGiveCoupon(String mongoId,Integer couponId) {
 		String chooseUid = "SELECT id FROM hm_user WHERE phone in (SELECT phone FROM hm_phone)";
 		List<Integer> uids = jdbcTemplate.queryForList(chooseUid,Integer.class);
 		int currentTime = DateUtil.getCurrentTime();
@@ -222,8 +224,46 @@ public class QueryUidImpl implements QueryUid {
 		}
 		
 	}
-	
-	
-	
-	
+
+	@Override
+	public void test() {
+		String sqlString = "SELECT uid FROM hm_test";
+		String sql = "SELECT tid,count(tid) num,GROUP_CONCAT(uid) uids FROM hm_pay_order WHERE  tid in( SELECT tid FROM hm_pay_order WHERE uid = ? ) GROUP BY tid";
+		String getMarketNames = "SELECT GROUP_CONCAT(ename) as enames FROM hm_market WHERE id in(" + 
+				"SELECT marketid from hm_rider_order WHERE uid = ? AND is_delete = 0 AND pay_status = 1)"; 
+		List<Integer> uids = jdbcTemplate.queryForList(sqlString, Integer.class);
+		for (Integer uid : uids) {
+			List<Map<String, Object>> res = jdbcTemplate.queryForList(sql, uid);
+			String enames = jdbcTemplate.queryForObject(getMarketNames,new Object[] { uid }, String.class);
+			String resultString = "";
+			Integer flag = 0;
+			for (Map<String, Object> r : res) {
+				String tid = (String) r.get("tid");
+				Long num = (Long) r.get("num");
+				String uidStr = (String) r.get("uids");
+				Set<String> set = new HashSet<>();
+				String[] split = uidStr.split(",");
+				for (int i = 0; i < split.length; i++) {
+					set.add(split[i]);
+				}
+				int size = set.size();
+				if (size > 5) {
+					flag = 1;
+				}
+				resultString = resultString + tid + "("  +  num + "," + stringCount(uidStr, String.valueOf(uid)) + "," + size + ") ";
+			}
+			String updateSql = "update hm_test set tids = ? ,flag = ?,market = ? where uid = ?";
+			jdbcTemplate.update(updateSql, resultString,flag,enames,uid);
+		}
+	}
+
+   public static int stringCount(String str,String key){
+     int index=0;
+     int count=0;
+     while((index=str.indexOf(key))!=-1){
+     str=str.substring(index+key.length());
+     count++;
+     }
+     return count;
+  }
 }

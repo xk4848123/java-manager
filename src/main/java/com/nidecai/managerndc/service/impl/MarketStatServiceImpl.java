@@ -90,6 +90,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatDay.setOrderIntegral(makertStatResultDTO.getOrderIntegral());
                 makertStatDay.setOrderActivity(makertStatResultDTO.getOrderActivity());
                 makertStatDay.setOrderVipRelief(makertStatResultDTO.getOrderVipRelief());
+                makertStatDay.setOrderCommissionPrice(makertStatResultDTO.getOrderCommissionPrice());
                 makertStatDay.setDate(accDate.split(" ")[0]);
 
                 list.add(makertStatResultDTO.getMarketId());
@@ -106,6 +107,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatDay.setOrderIntegral(new BigDecimal(0));
                 makertStatDay.setOrderActivity(new BigDecimal(0));
                 makertStatDay.setOrderVipRelief(new BigDecimal(0));
+                makertStatDay.setOrderCommissionPrice(new BigDecimal(0));
                 makertStatDay.setDate(accDate.split(" ")[0]);
                 makertStatDayMapper.insertSelective(makertStatDay);
             }
@@ -179,6 +181,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatMonth.setOrderIntegral(makertStatResultDTO.getOrderIntegral());
                 makertStatMonth.setOrderActivity(makertStatResultDTO.getOrderActivity());
                 makertStatMonth.setOrderVipRelief(makertStatResultDTO.getOrderVipRelief());
+                makertStatMonth.setOrderCommissionPrice(makertStatResultDTO.getOrderCommissionPrice());
                 makertStatMonth.setDate(lastMonthString);
 
                 list.add(makertStatResultDTO.getMarketId());
@@ -195,6 +198,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatMonth.setOrderIntegral(new BigDecimal(0));
                 makertStatMonth.setOrderActivity(new BigDecimal(0));
                 makertStatMonth.setOrderVipRelief(new BigDecimal(0));
+                makertStatMonth.setOrderCommissionPrice(new BigDecimal(0));
                 makertStatMonth.setDate(lastMonthString);
                 makertStatMonthMapper.insertSelective(makertStatMonth);
             }
@@ -269,6 +273,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatYear.setOrderIntegral(makertStatResultDTO.getOrderIntegral());
                 makertStatYear.setOrderActivity(makertStatResultDTO.getOrderActivity());
                 makertStatYear.setOrderVipRelief(makertStatResultDTO.getOrderVipRelief());
+                makertStatYear.setOrderCommissionPrice(makertStatResultDTO.getOrderCommissionPrice());
                 makertStatYear.setDate(currentTime);
 
                 list.add(makertStatResultDTO.getMarketId());
@@ -285,6 +290,7 @@ public class MarketStatServiceImpl implements MarketStatService {
                 makertStatYear.setOrderIntegral(new BigDecimal(0));
                 makertStatYear.setOrderActivity(new BigDecimal(0));
                 makertStatYear.setOrderVipRelief(new BigDecimal(0));
+                makertStatYear.setOrderCommissionPrice(new BigDecimal(0));
                 makertStatYear.setDate(currentTime);
                 makertStatYearMapper.insertSelective(makertStatYear);
             }
