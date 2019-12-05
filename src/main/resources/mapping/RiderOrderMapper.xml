@@ -137,7 +137,7 @@
 			sum( coupon_price ) as order_coupon,
 			sum( integral ) / 1000 as order_integral,
 			sum( market_activity_price ) as order_activity,
-			sum( vip_relief ) as order_vip_relief
+			sum( vip_relief ) as order_vip_relief,
 			sum( commission_price ) as order_commission_price
 		FROM
 			hm_rider_order
