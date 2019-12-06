@@ -12,7 +12,7 @@ import com.nidecai.managerndc.service.SupportService;
 
 @RestController
 @RequestMapping(value = "/jmanager1/v1/support")
-public class SupportController {
+public class SController {
 
 	
 	@Autowired
@@ -22,7 +22,7 @@ public class SupportController {
     @RequestMapping(value = "/getuidbyphone")
     public ResultDTO<Object> listOrder(@RequestParam(name = "phone", required = true) String phone) throws BusinessException {
     	try {
-    		return ResultUtil.getSuccess(supportService.getVerifyCodeByPhone(phone));
+    		return ResultUtil.getSuccess(supportService.getUidByPhone(phone));
 		    } catch (Exception e) {
 			throw new BusinessException(CommonMessageEnum.SERVERERR.getCode(), e.getMessage());
 		}
