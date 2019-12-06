@@ -13,7 +13,7 @@ import com.nidecai.managerndc.common.entitycommon.ResultDTO;
 import com.nidecai.managerndc.service.SupportService;
 
 @RestController
-@RequestMapping(value = "/jmanager1/v1/support")
+@RequestMapping(value = "/jmanager/v1/support")
 public class SupportController {
 
 	@Autowired

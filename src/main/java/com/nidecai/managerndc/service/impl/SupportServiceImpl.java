@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,9 @@ public class SupportServiceImpl implements SupportService{
 	
 	@Autowired
 	private OrderMapper orderMapper;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
 	@Override
 	public String getVerifyCodeByPhone(String phone) {
@@ -106,6 +110,18 @@ public class SupportServiceImpl implements SupportService{
 			
 		}
 		
+	}
+
+	@Override
+	public Integer getUidByPhone(String phone) {
+		String sql = "SELECT id FROM hm_user where phone = ?";
+		Integer uid = 0;
+		try {
+			uid = jdbcTemplate.queryForObject(sql, new Object[] { phone },
+					Integer.class);
+		} catch (Exception e) {
+		}
+		return uid;
 	}
 
 }
