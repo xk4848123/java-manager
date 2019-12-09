@@ -8,7 +8,4 @@ public interface SupportService {
 	public Integer getUidByPhone(String phone);
 	
 	public String getTodayUserRegisterByAreaName(String areaName);
-	
-	public void copyOrder(Integer sCtime,Integer eCtime,Integer days, Integer orderNum
-			 ,Integer marketId,Double riderPay,Double minOrigin,Double maxOrigin);
 }

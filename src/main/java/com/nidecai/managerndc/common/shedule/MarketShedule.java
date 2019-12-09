@@ -78,12 +78,4 @@ public class MarketShedule {
     }
     
     
-    public static void main(String[] args) {
-		
-    	List<String> list = new ArrayList<>();
-    	list.add("e");
-    	String string = list.get(list.size() - 1);
-    	System.out.println(string);
-    	
-	}
 }

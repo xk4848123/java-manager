@@ -9,6 +9,7 @@ import com.nidecai.managerndc.mapper.*;
 import com.nidecai.managerndc.service.MarketStatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -38,6 +39,7 @@ public class MarketStatServiceImpl implements MarketStatService {
 
 
     @Override
+    @Transactional
     public void recordMarketStatDay() {
         try {
             //统计前一天订单

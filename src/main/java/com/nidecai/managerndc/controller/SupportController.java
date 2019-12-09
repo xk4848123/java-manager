@@ -34,23 +34,5 @@ public class SupportController {
 
     }
     
-    @RequestMapping(value = "/createData")
-    @ConvenientStore(value = "createData")
-    public ResultDTO<Object> createData(@RequestParam(name = "sctime", required = false) Integer sCtime,
-    		@RequestParam(name = "ectime", required = false) Integer eCtime,@RequestParam(name = "days", required = false) Integer days
-    		,@RequestParam(name = "ordernum", required = false) Integer orderNum,@RequestParam(name = "marketid" , required = false) Integer marketId,
-    		@RequestParam(name="riderpay",required = false) Double riderPay,@RequestParam(name="minorigin" ,required = false) Double minOrigin,
-    		@RequestParam(name="maxorigin" ,required = false) Double maxOrigin) throws BusinessException {
-    	try {
-    		if ("pro".equals(env.getActiveProfiles()[0])) {
-    			return ResultUtil.getSuccess(1);
-    		}
-    		supportService.copyOrder(sCtime, eCtime, days, orderNum,marketId,riderPay,minOrigin,maxOrigin);
-    		return ResultUtil.getSuccess(1);
-		    } catch (Exception e) {
-			throw new BusinessException(CommonMessageEnum.SERVERERR.getCode(), e.getMessage());
-		}
-
-    }
 
 }

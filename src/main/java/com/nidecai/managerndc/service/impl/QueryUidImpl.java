@@ -211,9 +211,9 @@ public class QueryUidImpl implements QueryUid {
 		BigDecimal price = new BigDecimal("8");
 		for (Integer uid : uids) {
 			UserCoupon userCoupon = new UserCoupon();
-			userCoupon.setCoupon("5dddd6613c774518cb519e2f");
+			userCoupon.setCoupon(mongoId);
 			userCoupon.setUid(uid);
-			userCoupon.setCouponid(248);
+			userCoupon.setCouponid(couponId);
 			userCoupon.setCtime(currentTime);
 			userCoupon.setUpdateTime(currentTime);
 			userCoupon.setStartTime(currentTime);

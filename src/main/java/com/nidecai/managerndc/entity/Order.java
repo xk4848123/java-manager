@@ -2,15 +2,13 @@ package com.nidecai.managerndc.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import javax.persistence.*;
 
 @Table(name = "hm_order")
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Integer id;
 
     /**
      * 订单号
@@ -37,6 +35,12 @@ public class Order implements Serializable {
      * 订单总价
      */
     private BigDecimal total;
+
+    /**
+     * 实际到账金额
+     */
+    @Column(name = "actual_achieve")
+    private BigDecimal actualAchieve;
 
     /**
      * 实际支付金额
@@ -100,26 +104,32 @@ public class Order implements Serializable {
     /**
      * 所属RI订单id
      */
-    private BigInteger roid;
+    private Integer roid;
 
     /**
      * 测试订单标识
      */
     private Integer test;
 
+    /**
+     * 1删除
+     */
+    @Column(name = "is_delete")
+    private Byte isDelete;
+
     private static final long serialVersionUID = 1L;
 
     /**
      * @return id
      */
-    public BigInteger getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(BigInteger id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -211,6 +221,24 @@ public class Order implements Serializable {
      */
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    /**
+     * 获取实际到账金额
+     *
+     * @return actual_achieve - 实际到账金额
+     */
+    public BigDecimal getActualAchieve() {
+        return actualAchieve;
+    }
+
+    /**
+     * 设置实际到账金额
+     *
+     * @param actualAchieve 实际到账金额
+     */
+    public void setActualAchieve(BigDecimal actualAchieve) {
+        this.actualAchieve = actualAchieve;
     }
 
     /**
@@ -426,7 +454,7 @@ public class Order implements Serializable {
      *
      * @return roid - 所属RI订单id
      */
-    public BigInteger getRoid() {
+    public Integer getRoid() {
         return roid;
     }
 
@@ -435,7 +463,7 @@ public class Order implements Serializable {
      *
      * @param roid 所属RI订单id
      */
-    public void setRoid(BigInteger roid) {
+    public void setRoid(Integer roid) {
         this.roid = roid;
     }
 
@@ -455,5 +483,23 @@ public class Order implements Serializable {
      */
     public void setTest(Integer test) {
         this.test = test;
+    }
+
+    /**
+     * 获取1删除
+     *
+     * @return is_delete - 1删除
+     */
+    public Byte getIsDelete() {
+        return isDelete;
+    }
+
+    /**
+     * 设置1删除
+     *
+     * @param isDelete 1删除
+     */
+    public void setIsDelete(Byte isDelete) {
+        this.isDelete = isDelete;
     }
 }
