@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="rider_sn" jdbcType="VARCHAR" property="riderSn" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
     <result column="rider_status" jdbcType="TINYINT" property="riderStatus" />
@@ -33,8 +33,14 @@
     <result column="store_activity_price" jdbcType="DECIMAL" property="storeActivityPrice" />
     <result column="vip_relief" jdbcType="DECIMAL" property="vipRelief" />
     <result column="error_price" jdbcType="DECIMAL" property="errorPrice" />
+    <result column="commission_price" jdbcType="DECIMAL" property="commissionPrice" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="test" jdbcType="INTEGER" property="test" />
+    <result column="deviceId" jdbcType="VARCHAR" property="deviceid" />
+    <result column="self_sufficiency" jdbcType="TINYINT" property="selfSufficiency" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="pay_platform_no" jdbcType="VARCHAR" property="payPlatformNo" />
   </resultMap>
   
   <select id="getAllSumOfRid" resultType="java.lang.Integer">
@@ -50,7 +56,7 @@
 	WHERE
 	pay_status = 1 AND
 		uid IN
-	<foreach collection="set" item="uid" separator="," open="(" close=")">
+	<foreach close=")" collection="set" item="uid" open="(" separator=",">
 		#{uid}
 	</foreach>
 	GROUP BY
@@ -70,9 +76,9 @@
 		hm_rider_order 
 	WHERE
 	pay_status = 1 AND 
-	ctime > #{ctime} AND
+	ctime &gt; #{ctime} AND
 		uid IN
-	<foreach collection="set" item="uid" separator="," open="(" close=")">
+	<foreach close=")" collection="set" item="uid" open="(" separator=",">
 		#{uid}
 	</foreach>
 	GROUP BY
@@ -83,7 +89,7 @@
   
   <select id="getOldUser" resultType="java.lang.Integer">
   SELECT uid FROM hm_rider_order WHERE ctime <![CDATA[ <= ]]> #{ctime} AND pay_status = 1 and uid IN
-  <foreach collection="set" item="uid" separator="," open="(" close=")">
+  <foreach close=")" collection="set" item="uid" open="(" separator=",">
 		#{uid}
 	</foreach>
    GROUP BY uid
@@ -101,9 +107,9 @@
 		hm_rider_order 
 	WHERE
 	pay_status = 1 AND 
-	ctime > #{ctime} AND
+	ctime &gt; #{ctime} AND
 		uid IN
-	<foreach collection="list" item="uid" separator="," open="(" close=")">
+	<foreach close=")" collection="list" item="uid" open="(" separator=",">
 		#{uid}
 	</foreach>
 	GROUP BY
@@ -112,19 +118,19 @@
   </select>
   
   <select id="getNewUserOrderNum" resultType="java.lang.Integer">
-      SELECT COUNT(1) FROM hm_rider_order WHERE ctime > #{ctime} AND uid in ( SELECT id FROM hm_user WHERE ctime > #{ctime} )
+      SELECT COUNT(1) FROM hm_rider_order WHERE ctime &gt; #{ctime} AND uid in ( SELECT id FROM hm_user WHERE ctime &gt; #{ctime} )
   </select>
 
 	<resultMap id="BaseStatResultMap" type="com.nidecai.managerndc.common.entitycommon.MakertStatResultDTO">
 		<id column="marketid" jdbcType="INTEGER" property="marketId" />
-		<result column="order_num" jdbcType="INTEGER" property="orderNum"/>
-		<result column="order_pay" jdbcType="DECIMAL" property="orderPay"/>
-		<result column="order_rider_pay" jdbcType="DECIMAL" property="orderRiderPay"/>
-		<result column="order_coupon" jdbcType="DECIMAL" property="orderCoupon"/>
-		<result column="order_integral" jdbcType="DECIMAL" property="orderIntegral"/>
-		<result column="order_activity" jdbcType="DECIMAL" property="orderActivity"/>
-		<result column="order_vip_relief" jdbcType="DECIMAL" property="orderVipRelief"/>
-		<result column="order_commission_price" jdbcType="DECIMAL" property="orderCommissionPrice"/>
+		<result column="order_num" jdbcType="INTEGER" property="orderNum" />
+		<result column="order_pay" jdbcType="DECIMAL" property="orderPay" />
+		<result column="order_rider_pay" jdbcType="DECIMAL" property="orderRiderPay" />
+		<result column="order_coupon" jdbcType="DECIMAL" property="orderCoupon" />
+		<result column="order_integral" jdbcType="DECIMAL" property="orderIntegral" />
+		<result column="order_activity" jdbcType="DECIMAL" property="orderActivity" />
+		<result column="order_vip_relief" jdbcType="DECIMAL" property="orderVipRelief" />
+		<result column="order_commission_price" jdbcType="DECIMAL" property="orderCommissionPrice" />
 	</resultMap>
 
 
@@ -156,12 +162,12 @@
    ,SUM(rider_pay) rp
    FROM  
   hm_rider_order WHERE  out_trade_no in
-  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+  <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
   or rider_sn
   in
-   <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+   <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
 </select>
@@ -178,12 +184,12 @@
 SELECT hm_market.ename,a.num FROM 
 
 (SELECT marketid,COUNT(1) num FROM hm_rider_order WHERE out_trade_no in 
-  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+  <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
   or rider_sn
   in
-   <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+   <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
   
@@ -205,11 +211,11 @@ SELECT hm_market.ename,a.num FROM
   SELECT CONCAT(hs.real_name,'(',hs.phone,')') sinfo,a.num from
 (SELECT pid ,COUNT(1) num FROM hm_order WHERE roid in(
 SELECT id FROM hm_rider_order WHERE rider_sn in
-  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+  <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
  OR out_trade_no in
- <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+ <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
 ) GROUP BY pid) as a ,hm_shopown hs WHERE a.pid = hs.pid
@@ -220,11 +226,11 @@ SELECT id FROM hm_rider_order WHERE rider_sn in
   SELECT hs.pid,hs.sname sinfo,hm.ename,a.num from
 (SELECT pid ,COUNT(1) num FROM hm_order WHERE roid in(
 SELECT id FROM hm_rider_order WHERE rider_sn in
-  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+  <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
  OR out_trade_no in
- <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+ <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
 ) GROUP BY pid) as a ,hm_shopown hs,hm_market hm WHERE a.pid = hs.pid and hm.id = hs.marketid
@@ -234,11 +240,11 @@ SELECT id FROM hm_rider_order WHERE rider_sn in
 SELECT hs.pid,CONCAT(hs.sname,"|",hm.ename) sinfo,a.uids,a.num from 
 (SELECT pid,GROUP_CONCAT(uid) uids ,COUNT(1) num FROM hm_order WHERE roid in(
 SELECT id FROM hm_rider_order WHERE rider_sn in 
- <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+ <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
  OR out_trade_no in 
-  <foreach collection="dramaIds" item="dramaId" open="(" close=")" separator=",">
+  <foreach close=")" collection="dramaIds" item="dramaId" open="(" separator=",">
     #{dramaId}
   </foreach>
  ) GROUP BY pid) AS a,hm_shopown hs,hm_market hm WHERE a.pid = hs.pid AND hs.marketid = hm.id	

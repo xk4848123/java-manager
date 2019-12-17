@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nidecai.managerndc.mapper.PayOrderMapper">
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.PayOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sno" jdbcType="VARCHAR" property="sno" />
+    <result column="tno" jdbcType="VARCHAR" property="tno" />
+    <result column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="roid" jdbcType="INTEGER" property="roid" />
+    <result column="ctime" jdbcType="INTEGER" property="ctime" />
+    <result column="cstr" jdbcType="VARCHAR" property="cstr" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="tprice" jdbcType="DECIMAL" property="tprice" />
+    <result column="rpay" jdbcType="DECIMAL" property="rpay" />
+    <result column="ifee" jdbcType="DECIMAL" property="ifee" />
+    <result column="cfee" jdbcType="DECIMAL" property="cfee" />
+    <result column="vfee" jdbcType="DECIMAL" property="vfee" />
+    <result column="ofee" jdbcType="DECIMAL" property="ofee" />
+    <result column="sinfo" jdbcType="VARCHAR" property="sinfo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mfee" jdbcType="DECIMAL" property="mfee" />
+  </resultMap>
+</mapper>

@@ -2,15 +2,13 @@ package com.nidecai.managerndc.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import javax.persistence.*;
 
 @Table(name = "hm_rider_order")
 public class RiderOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Integer id;
 
     /**
      * 配送订单
@@ -31,7 +29,7 @@ public class RiderOrder implements Serializable {
     private Byte riderStatus;
 
     /**
-     * 待支付、1支付成功、2支付失败
+     * 0待支付、1支付成功、2支付失败、3退款中、4退款成功
      */
     @Column(name = "pay_status")
     private Byte payStatus;
@@ -157,6 +155,12 @@ public class RiderOrder implements Serializable {
     private BigDecimal errorPrice;
 
     /**
+     * 佣金收益
+     */
+    @Column(name = "commission_price")
+    private BigDecimal commissionPrice;
+
+    /**
      * 备注信息
      */
     private String remark;
@@ -166,19 +170,42 @@ public class RiderOrder implements Serializable {
      */
     private Integer test;
 
+    /**
+     * 设备号
+     */
+    @Column(name = "deviceId")
+    private String deviceid;
+
+    /**
+     * -1未知0非自提1自提
+     */
+    @Column(name = "self_sufficiency")
+    private Byte selfSufficiency;
+
+    /**
+     * 1删除
+     */
+    @Column(name = "is_delete")
+    private Byte isDelete;
+
+    private String identity;
+
+    @Column(name = "pay_platform_no")
+    private String payPlatformNo;
+
     private static final long serialVersionUID = 1L;
 
     /**
      * @return id
      */
-    public BigInteger getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(BigInteger id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -237,18 +264,18 @@ public class RiderOrder implements Serializable {
     }
 
     /**
-     * 获取待支付、1支付成功、2支付失败
+     * 获取0待支付、1支付成功、2支付失败、3退款中、4退款成功
      *
-     * @return pay_status - 待支付、1支付成功、2支付失败
+     * @return pay_status - 0待支付、1支付成功、2支付失败、3退款中、4退款成功
      */
     public Byte getPayStatus() {
         return payStatus;
     }
 
     /**
-     * 设置待支付、1支付成功、2支付失败
+     * 设置0待支付、1支付成功、2支付失败、3退款中、4退款成功
      *
-     * @param payStatus 待支付、1支付成功、2支付失败
+     * @param payStatus 0待支付、1支付成功、2支付失败、3退款中、4退款成功
      */
     public void setPayStatus(Byte payStatus) {
         this.payStatus = payStatus;
@@ -653,6 +680,24 @@ public class RiderOrder implements Serializable {
     }
 
     /**
+     * 获取佣金收益
+     *
+     * @return commission_price - 佣金收益
+     */
+    public BigDecimal getCommissionPrice() {
+        return commissionPrice;
+    }
+
+    /**
+     * 设置佣金收益
+     *
+     * @param commissionPrice 佣金收益
+     */
+    public void setCommissionPrice(BigDecimal commissionPrice) {
+        this.commissionPrice = commissionPrice;
+    }
+
+    /**
      * 获取备注信息
      *
      * @return remark - 备注信息
@@ -686,5 +731,87 @@ public class RiderOrder implements Serializable {
      */
     public void setTest(Integer test) {
         this.test = test;
+    }
+
+    /**
+     * 获取设备号
+     *
+     * @return deviceId - 设备号
+     */
+    public String getDeviceid() {
+        return deviceid;
+    }
+
+    /**
+     * 设置设备号
+     *
+     * @param deviceid 设备号
+     */
+    public void setDeviceid(String deviceid) {
+        this.deviceid = deviceid;
+    }
+
+    /**
+     * 获取-1未知0非自提1自提
+     *
+     * @return self_sufficiency - -1未知0非自提1自提
+     */
+    public Byte getSelfSufficiency() {
+        return selfSufficiency;
+    }
+
+    /**
+     * 设置-1未知0非自提1自提
+     *
+     * @param selfSufficiency -1未知0非自提1自提
+     */
+    public void setSelfSufficiency(Byte selfSufficiency) {
+        this.selfSufficiency = selfSufficiency;
+    }
+
+    /**
+     * 获取1删除
+     *
+     * @return is_delete - 1删除
+     */
+    public Byte getIsDelete() {
+        return isDelete;
+    }
+
+    /**
+     * 设置1删除
+     *
+     * @param isDelete 1删除
+     */
+    public void setIsDelete(Byte isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    /**
+     * @return identity
+     */
+    public String getIdentity() {
+        return identity;
+    }
+
+    /**
+     * @param identity
+     */
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    /**
+     * @return pay_platform_no
+     */
+    public String getPayPlatformNo() {
+        return payPlatformNo;
+    }
+
+    /**
+     * @param payPlatformNo
+     */
+    public void setPayPlatformNo(String payPlatformNo) {
+        this.payPlatformNo = payPlatformNo;
     }
 }

@@ -19,7 +19,11 @@ public interface QueryUid {
       
       void queryStore();
       
-      void startGiveCoupon(String mongoId,Integer couponId);
+      void startGiveCoupon(String mongoId,Integer couponId,String price);
       
       void test();
+      
+      void updateIdentityAndPno();
+      
+      void insertPayOrder();
 }

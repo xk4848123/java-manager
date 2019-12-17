@@ -4,16 +4,26 @@ import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
 import com.nidecai.managerndc.common.codeutil.DateUtil;
 import com.nidecai.managerndc.common.codeutil.MyStringUtils;
+import com.nidecai.managerndc.entity.Order;
+import com.nidecai.managerndc.entity.OrderAddress;
+import com.nidecai.managerndc.entity.PayOrder;
 import com.nidecai.managerndc.entity.PayStatistic;
+import com.nidecai.managerndc.entity.RiderOrder;
+import com.nidecai.managerndc.entity.Shopown;
 import com.nidecai.managerndc.entity.UserCoupon;
+import com.nidecai.managerndc.mapper.OrderAddressMapper;
+import com.nidecai.managerndc.mapper.OrderMapper;
+import com.nidecai.managerndc.mapper.PayOrderMapper;
 import com.nidecai.managerndc.mapper.PayStatisticMapper;
 import com.nidecai.managerndc.mapper.PayidOrderMapper;
 import com.nidecai.managerndc.mapper.RiderOrderMapper;
+import com.nidecai.managerndc.mapper.ShopownMapper;
 import com.nidecai.managerndc.mapper.UserCouponMapper;
 import com.nidecai.managerndc.service.QueryUid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -23,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -55,6 +66,15 @@ public class QueryUidImpl implements QueryUid {
 	private RiderOrderMapper riderOrderMapper;
 	@Autowired
 	private UserCouponMapper userCouponMapper;
+	
+	@Autowired
+	private PayOrderMapper payOrderMapper;
+	@Autowired
+	private OrderAddressMapper orderAddressMapper;
+	@Autowired
+	private OrderMapper orderMapper;
+	@Autowired
+	private ShopownMapper shopownMapper;
 
 	@Override
 	public void queryUidById() {
@@ -204,11 +224,11 @@ public class QueryUidImpl implements QueryUid {
 
 
 	@Override
-	public void startGiveCoupon(String mongoId,Integer couponId) {
-		String chooseUid = "SELECT id FROM hm_user WHERE phone in (SELECT phone FROM hm_phone)";
+	public void startGiveCoupon(String mongoId,Integer couponId,String price) {
+		String chooseUid = "SELECT id FROM hm_phoneuid";
 		List<Integer> uids = jdbcTemplate.queryForList(chooseUid,Integer.class);
 		int currentTime = DateUtil.getCurrentTime();
-		BigDecimal price = new BigDecimal("8");
+		BigDecimal priceB = new BigDecimal(price);
 		for (Integer uid : uids) {
 			UserCoupon userCoupon = new UserCoupon();
 			userCoupon.setCoupon(mongoId);
@@ -219,7 +239,7 @@ public class QueryUidImpl implements QueryUid {
 			userCoupon.setStartTime(currentTime);
 			userCoupon.setEndTime(currentTime + 86400);
 			userCoupon.setType(1);
-			userCoupon.setPrice(price);
+			userCoupon.setPrice(priceB);
 			userCouponMapper.insertSelective(userCoupon);
 		}
 		
@@ -266,4 +286,83 @@ public class QueryUidImpl implements QueryUid {
      }
      return count;
   }
+
+@Override
+public void updateIdentityAndPno() {
+	//hm_middle_order（临时表） 同步hm_rider_order identity和Pno
+	String sql = "select order_trade_no from hm_middle_order";
+	String getDataSql = "select pay_platform_no,identity from hm_middle_order where order_trade_no = ?";
+	String setDataSql = "update hm_rider_order set identity =?,pay_platform_no=? where out_trade_no = ?";
+	List<String> orderList = jdbcTemplate.queryForList(sql, String.class);
+	for (String out_trade_no : orderList) {
+		Map<String, Object> resMap = null;
+		try {
+			resMap = jdbcTemplate.queryForMap(getDataSql, out_trade_no);
+		} catch (EmptyResultDataAccessException e) {
+		}
+		if (resMap != null) {
+			jdbcTemplate.update(setDataSql,(String) resMap.get("identity"),(String) resMap.get("pay_platform_no"),out_trade_no);
+		}
+	}
+}
+
+@Override
+public void insertPayOrder() {
+	String querySql = "SELECT id  FROM hm_rider_order WHERE is_delete =0 AND pay_status = 1 AND identity IS NOT NULL AND pay_time > 1572537600 AND pay_time < 1575129600";
+	List<Integer> orderList = jdbcTemplate.queryForList(querySql, Integer.class);
+	for (Integer id : orderList) {
+		RiderOrder record = riderOrderMapper.selectByPrimaryKey(id);
+		PayOrder payOrder = new PayOrder();
+		payOrder.setSno(record.getOutTradeNo());
+		payOrder.setTno(record.getPayPlatformNo());
+		payOrder.setTid(record.getIdentity());
+		payOrder.setRoid(id);
+		payOrder.setCtime(record.getPayTime());
+		payOrder.setCstr(timeStamp2Date(record.getPayTime()+"", null));
+		payOrder.setCfee(record.getCouponPrice());
+		payOrder.setUid(record.getUid());
+		payOrder.setTprice(BigDecimal.valueOf(record.getTotalprice()));
+		payOrder.setVfee(record.getVipRelief());
+		payOrder.setIfee(new BigDecimal(record.getIntegral()/100d).setScale(2, BigDecimal.ROUND_HALF_UP));
+		payOrder.setMfee(record.getMarketActivityPrice());
+		payOrder.setRpay(record.getRiderPay());
+		payOrder.setOfee(record.getOriginalPrice());
+		OrderAddress orderAddress = new OrderAddress();
+		orderAddress.setRiderSn(record.getRiderSn());
+		List<OrderAddress> select = null;
+		select = orderAddressMapper.select(orderAddress);
+		if (select.size() != 0) {
+			OrderAddress selectOne = select.get(0);
+			payOrder.setAddress(selectOne.getAddress() + " " + selectOne.getHouseNumber());
+		}
+		
+		Order order = new Order();
+		order.setRoid(id);
+		List<Order> list = orderMapper.select(order);
+		StringBuilder sinfo = new StringBuilder();
+		for (Order o : list) {
+			Integer pid = o.getPid();
+			Shopown shop = shopownMapper.selectByPrimaryKey(pid);
+			String realName = shop.getRealName();
+			String sname = shop.getSname();
+			sinfo.append("(").append(sname).append(")").append(realName).append(" ");
+		}
+		payOrder.setSinfo(sinfo.toString());
+		payOrderMapper.insert(payOrder);
+	}
+
+	
+}
+   
+public static String timeStamp2Date(String seconds,String format) {  
+    if(seconds == null || seconds.isEmpty() || seconds.equals("null")){  
+        return "";  
+    }  
+    if(format == null || format.isEmpty()){
+        format = "yyyy-MM-dd HH:mm:ss";
+    }   
+    SimpleDateFormat sdf = new SimpleDateFormat(format);  
+    return sdf.format(new Date(Long.valueOf(seconds+"000")));  
+}
+
 }
