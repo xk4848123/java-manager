@@ -1,8 +1,8 @@
 package com.nidecai.managerndc.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.*;
 
 @Table(name = "hm_rider_user")
 public class RiderUser implements Serializable {
@@ -10,67 +10,61 @@ public class RiderUser implements Serializable {
      * 骑手名称
      */
     @Id
-    @Column(name = "rid")
     private Integer rid;
 
     /**
      * 所属菜场
      */
-    @Column(name = "marketid")
     private Integer marketid;
 
     /**
      * 手机号
      */
-    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "name")
     private String name;
 
     /**
      * 身份证号
      */
-    @Column(name = "code")
     private String code;
 
     /**
      * 密码
      */
-    @Column(name = "password")
     private String password;
 
     /**
      * 经度
      */
-    @Column(name = "longitude")
     private String longitude;
 
     /**
      * 纬度
      */
-    @Column(name = "latitude")
     private String latitude;
 
     /**
      * 0待审核1审核通过
      */
-    @Column(name = "state")
     private Byte state;
 
-    @Column(name = "ctime")
+    /**
+     * 最后上报时间
+     */
+    @Column(name = "last_time")
+    private Integer lastTime;
+
     private Integer ctime;
 
     /**
      * 加密盐
      */
-    @Column(name = "salt")
     private String salt;
 
     /**
      * 1正常0禁用
      */
-    @Column(name = "status")
     private Byte status;
 
     /**
@@ -85,10 +79,8 @@ public class RiderUser implements Serializable {
     /**
      * accid
      */
-    @Column(name = "accid")
     private String accid;
 
-    @Column(name = "token")
     private String token;
 
     @Column(name = "test_user")
@@ -119,10 +111,16 @@ public class RiderUser implements Serializable {
     private BigDecimal vipPromotionRewardover;
 
     /**
-     * 骑手公众号openid
+     * 公众号openid
      */
     @Column(name = "public_openid")
     private String publicOpenid;
+
+    /**
+     * 备选菜场
+     */
+    @Column(name = "market_backup")
+    private Integer marketBackup;
 
     private static final long serialVersionUID = 1L;
 
@@ -177,7 +175,7 @@ public class RiderUser implements Serializable {
      * @param phone 手机号
      */
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     /**
@@ -191,7 +189,7 @@ public class RiderUser implements Serializable {
      * @param name
      */
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     /**
@@ -209,7 +207,7 @@ public class RiderUser implements Serializable {
      * @param code 身份证号
      */
     public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+        this.code = code;
     }
 
     /**
@@ -227,7 +225,7 @@ public class RiderUser implements Serializable {
      * @param password 密码
      */
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     /**
@@ -245,7 +243,7 @@ public class RiderUser implements Serializable {
      * @param longitude 经度
      */
     public void setLongitude(String longitude) {
-        this.longitude = longitude == null ? null : longitude.trim();
+        this.longitude = longitude;
     }
 
     /**
@@ -263,7 +261,7 @@ public class RiderUser implements Serializable {
      * @param latitude 纬度
      */
     public void setLatitude(String latitude) {
-        this.latitude = latitude == null ? null : latitude.trim();
+        this.latitude = latitude;
     }
 
     /**
@@ -282,6 +280,24 @@ public class RiderUser implements Serializable {
      */
     public void setState(Byte state) {
         this.state = state;
+    }
+
+    /**
+     * 获取最后上报时间
+     *
+     * @return last_time - 最后上报时间
+     */
+    public Integer getLastTime() {
+        return lastTime;
+    }
+
+    /**
+     * 设置最后上报时间
+     *
+     * @param lastTime 最后上报时间
+     */
+    public void setLastTime(Integer lastTime) {
+        this.lastTime = lastTime;
     }
 
     /**
@@ -313,7 +329,7 @@ public class RiderUser implements Serializable {
      * @param salt 加密盐
      */
     public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+        this.salt = salt;
     }
 
     /**
@@ -363,7 +379,7 @@ public class RiderUser implements Serializable {
      * @param deviceNumber
      */
     public void setDeviceNumber(String deviceNumber) {
-        this.deviceNumber = deviceNumber == null ? null : deviceNumber.trim();
+        this.deviceNumber = deviceNumber;
     }
 
     /**
@@ -381,7 +397,7 @@ public class RiderUser implements Serializable {
      * @param accid accid
      */
     public void setAccid(String accid) {
-        this.accid = accid == null ? null : accid.trim();
+        this.accid = accid;
     }
 
     /**
@@ -395,7 +411,7 @@ public class RiderUser implements Serializable {
      * @param token
      */
     public void setToken(String token) {
-        this.token = token == null ? null : token.trim();
+        this.token = token;
     }
 
     /**
@@ -427,7 +443,7 @@ public class RiderUser implements Serializable {
      * @param loginToken 登录凭证
      */
     public void setLoginToken(String loginToken) {
-        this.loginToken = loginToken == null ? null : loginToken.trim();
+        this.loginToken = loginToken;
     }
 
     /**
@@ -485,20 +501,38 @@ public class RiderUser implements Serializable {
     }
 
     /**
-     * 获取骑手公众号openid
+     * 获取公众号openid
      *
-     * @return public_openid - 骑手公众号openid
+     * @return public_openid - 公众号openid
      */
     public String getPublicOpenid() {
         return publicOpenid;
     }
 
     /**
-     * 设置骑手公众号openid
+     * 设置公众号openid
      *
-     * @param publicOpenid 骑手公众号openid
+     * @param publicOpenid 公众号openid
      */
     public void setPublicOpenid(String publicOpenid) {
-        this.publicOpenid = publicOpenid == null ? null : publicOpenid.trim();
+        this.publicOpenid = publicOpenid;
+    }
+
+    /**
+     * 获取备选菜场
+     *
+     * @return market_backup - 备选菜场
+     */
+    public Integer getMarketBackup() {
+        return marketBackup;
+    }
+
+    /**
+     * 设置备选菜场
+     *
+     * @param marketBackup 备选菜场
+     */
+    public void setMarketBackup(Integer marketBackup) {
+        this.marketBackup = marketBackup;
     }
 }

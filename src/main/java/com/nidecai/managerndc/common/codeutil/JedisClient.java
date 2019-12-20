@@ -1,8 +1,11 @@
 package com.nidecai.managerndc.common.codeutil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 public class JedisClient {
 	/**
@@ -507,6 +510,27 @@ public class JedisClient {
 		}
 	}
 
+	public static List<String> scan(Integer count,String pattern) {
+		Jedis jedis = null;
+		ScanParams scanParams = new ScanParams();
+		scanParams.count(count);
+		String scanRet = ScanParams.SCAN_POINTER_START;
+		try {
+			jedis = JedisUtil.getJedis();
+			List<String> retList = new ArrayList<>();
+			do {
+				 ScanResult<String> ret = jedis.scan(scanRet, scanParams.match(pattern + "*"));
+				 scanRet = ret.getCursor();
+				 retList.addAll(ret.getResult());
+			} while (!scanRet.equals("0"));
+			return retList;
+		} catch (Exception e) {
+			LoggingUtil.e("检查key是否存在异常:" + e);
+			throw new RuntimeException("检查key是否存在异常:" + e);
+		} finally {
+			jedis.close();
+		}
+	}
 //	public static String setIfNxByEx(String key, String value, int seconds) {
 //		Jedis jedis = null;
 //		try {

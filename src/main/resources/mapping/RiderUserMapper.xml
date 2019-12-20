@@ -1,32 +1,34 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.nidecai.managerndc.mapper.RiderUserMapper" >
-  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.RiderUser" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nidecai.managerndc.mapper.RiderUserMapper">
+  <resultMap id="BaseResultMap" type="com.nidecai.managerndc.entity.RiderUser">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="rid" property="rid" jdbcType="INTEGER" />
-    <result column="marketid" property="marketid" jdbcType="INTEGER" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
-    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
-    <result column="state" property="state" jdbcType="TINYINT" />
-    <result column="ctime" property="ctime" jdbcType="INTEGER" />
-    <result column="salt" property="salt" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="is_order" property="isOrder" jdbcType="TINYINT" />
-    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR" />
-    <result column="accid" property="accid" jdbcType="VARCHAR" />
-    <result column="token" property="token" jdbcType="VARCHAR" />
-    <result column="test_user" property="testUser" jdbcType="INTEGER" />
-    <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
-    <result column="vip_promotion_reward" property="vipPromotionReward" jdbcType="DECIMAL" />
-    <result column="vip_promotion_rewardget" property="vipPromotionRewardget" jdbcType="DECIMAL" />
-    <result column="vip_promotion_rewardover" property="vipPromotionRewardover" jdbcType="DECIMAL" />
-    <result column="public_openid" property="publicOpenid" jdbcType="VARCHAR" />
+    <id column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="marketid" jdbcType="INTEGER" property="marketid" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="last_time" jdbcType="INTEGER" property="lastTime" />
+    <result column="ctime" jdbcType="INTEGER" property="ctime" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_order" jdbcType="TINYINT" property="isOrder" />
+    <result column="device_number" jdbcType="VARCHAR" property="deviceNumber" />
+    <result column="accid" jdbcType="VARCHAR" property="accid" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="test_user" jdbcType="INTEGER" property="testUser" />
+    <result column="login_token" jdbcType="VARCHAR" property="loginToken" />
+    <result column="vip_promotion_reward" jdbcType="DECIMAL" property="vipPromotionReward" />
+    <result column="vip_promotion_rewardget" jdbcType="DECIMAL" property="vipPromotionRewardget" />
+    <result column="vip_promotion_rewardover" jdbcType="DECIMAL" property="vipPromotionRewardover" />
+    <result column="public_openid" jdbcType="VARCHAR" property="publicOpenid" />
+    <result column="market_backup" jdbcType="INTEGER" property="marketBackup" />
   </resultMap>
 
 
