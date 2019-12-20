@@ -21,8 +21,8 @@ public class MonitorController {
 	@Autowired
 	private MonitorService monitorService;
 	
-	  @RequestMapping(value = "/getOnlinRrder" ,method = RequestMethod.GET)
-	  @ConvenientStore(value = "getOnlinRrder")
+	  @RequestMapping(value = "/getor" ,method = RequestMethod.GET)
+	  @ConvenientStore(value = "getOnlineRider")
 	  public ResultDTO<Object> getStatReport() throws BusinessException{
 	    	try {
 	    		return ResultUtil.getSuccess(monitorService.getOnlineRider());
