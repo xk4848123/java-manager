@@ -150,7 +150,7 @@
 		WHERE
 			pay_status = 1
 			AND is_delete = 0
-			AND (ctime BETWEEN #{timeStart} AND #{timeEnd})
+			AND (pay_time BETWEEN #{timeStart} AND #{timeEnd})
 		GROUP BY
 			marketid
 

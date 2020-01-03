@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
-@Table(name = "hm_makertstat_day")
+@Table(name = "hm_makertstat_month")
 public class MakertStatMonth implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

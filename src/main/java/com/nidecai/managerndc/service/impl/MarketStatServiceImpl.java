@@ -138,7 +138,6 @@ public class MarketStatServiceImpl implements MarketStatService {
             date = calendar.getTime();
             String accDate = format.format(date);    //上一个月时间为00：00：00开始
             long lasetTimeStart = (format.parse(accDate).getTime() / 1000);
-
             Date date1 = new Date();
             Calendar c = Calendar.getInstance();
             c.setTime(date1);
@@ -154,7 +153,6 @@ public class MarketStatServiceImpl implements MarketStatService {
             date1 = c.getTime();
             String format1 = format.format(date1);
             long lastTimeEnd = (format.parse(format1).getTime() / 1000);
-
             List<MakertStatResultDTO> maketStatDay = riderOrderMapper.findMaketStatDay(lasetTimeStart, lastTimeEnd);
 
             //查出所有状态为1的菜场.
