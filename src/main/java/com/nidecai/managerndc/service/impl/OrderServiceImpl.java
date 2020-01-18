@@ -116,7 +116,6 @@ public class OrderServiceImpl implements OrderService{
 				request.setBizContent("{" +
 						"\"out_trade_no\":\"" + returnNo + "\"," +
 						"\"refund_amount\":" + returnAmount + "," +
-						"\"refund_currency\":\"USD\"," +
 						"\"refund_reason\":\"正常退款\"," +
 						"\"out_request_no\":\"" + requestNo + "\"" +
 						"  }");
@@ -326,7 +325,6 @@ public class OrderServiceImpl implements OrderService{
 			request.setBizContent("{" +
 					"\"out_trade_no\":\"" + returnNo + "\"," +
 					"\"refund_amount\":" + returnAmount + "," +
-					"\"refund_currency\":\"USD\"," +
 					"\"refund_reason\":\"正常退款\"" +
 					"  }");
 			AlipayTradeRefundResponse response = null;
