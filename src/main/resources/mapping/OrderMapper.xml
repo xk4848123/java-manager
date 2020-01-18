@@ -35,7 +35,7 @@
    select id from hm_order where roid = #{roid}
  </select>
   <update id="updateRiderStatus">
-   update hm_order SET rider_status = #{riderStatus} WHERE roid = #{roid}
+   update hm_order SET order_status = #{riderStatus} WHERE roid = #{roid}
  </update>
 
 
