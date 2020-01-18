@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.nidecai.managerndc.common.codeutil.DateUtil;
 import com.nidecai.managerndc.common.compoent.AliPayCompoent;
 import com.nidecai.managerndc.common.mongoentity.StoreTurnover;
@@ -110,7 +112,7 @@ public class OrderServiceImpl implements OrderService{
 			if (typePay.equals("aliwap")) {
 				//支付宝退款
 				AlipayClient aliPayClient = aliPayCompoent.getAliPayClient();
-				AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+				AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
 				request.setBizContent("{" +
 						"\"out_trade_no\":\"" + returnNo + "\"," +
 						"\"refund_amount\":" + returnAmount + "," +
@@ -118,7 +120,7 @@ public class OrderServiceImpl implements OrderService{
 						"\"refund_reason\":\"正常退款\"," +
 						"\"out_request_no\":\"" + requestNo + "\"" +
 						"  }");
-				AlipayTradeQueryResponse response = null;
+				AlipayTradeRefundResponse response = null;
 				try {
 					 response = aliPayClient.execute(request);
 				} catch (AlipayApiException e) {
@@ -320,14 +322,14 @@ public class OrderServiceImpl implements OrderService{
 		if(typePay.equals("aliwap")) {
 			//支付宝退款
 			AlipayClient aliPayClient = aliPayCompoent.getAliPayClient();
-			AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+			AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
 			request.setBizContent("{" +
 					"\"out_trade_no\":\"" + returnNo + "\"," +
 					"\"refund_amount\":" + returnAmount + "," +
 					"\"refund_currency\":\"USD\"," +
 					"\"refund_reason\":\"正常退款\"" +
 					"  }");
-			AlipayTradeQueryResponse response = null;
+			AlipayTradeRefundResponse response = null;
 			try {
 				 response = aliPayClient.execute(request);
 			} catch (AlipayApiException e) {
