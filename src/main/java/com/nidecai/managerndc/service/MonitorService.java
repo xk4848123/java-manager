@@ -7,4 +7,6 @@ public interface MonitorService {
 
 	List<Map<String, Object>> getOnlineRider();
 	
+	List<Map<String, Object>> getClickFarming(Integer marketid);
+	
 }

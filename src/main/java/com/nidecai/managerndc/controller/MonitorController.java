@@ -4,6 +4,7 @@ package com.nidecai.managerndc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nidecai.managerndc.ExceptionHandle.BusinessException;
@@ -26,6 +27,16 @@ public class MonitorController {
 	  public ResultDTO<Object> getStatReport() throws BusinessException{
 	    	try {
 	    		return ResultUtil.getSuccess(monitorService.getOnlineRider());
+			} catch (Exception e) {
+				throw new BusinessException(CommonMessageEnum.SERVERERR.getCode(), e.getMessage());
+			}
+	    }
+	  
+	  @RequestMapping(value = "/getclickfarming" ,method = RequestMethod.GET)
+	  @ConvenientStore(value = "getClickFarming")
+	  public ResultDTO<Object> getClickFarming(@RequestParam(name = "marketid", required = true) Integer marketId) throws BusinessException{
+	    	try {
+	    		return ResultUtil.getSuccess(monitorService.getClickFarming(marketId));
 			} catch (Exception e) {
 				throw new BusinessException(CommonMessageEnum.SERVERERR.getCode(), e.getMessage());
 			}

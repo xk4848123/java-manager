@@ -35,6 +35,12 @@ public class DateUtil {
 		return df.format(calendar.getTime());
 	}
 
+	public static String getCurrentTime(Date date) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = df.format(date);
+        return format;
+	}
+	
 	public static String getCurrentTimeByDay(Date date) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String format = df.format(date);

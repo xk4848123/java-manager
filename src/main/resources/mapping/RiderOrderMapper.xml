@@ -250,4 +250,11 @@ SELECT id FROM hm_rider_order WHERE rider_sn in
  ) GROUP BY pid) AS a,hm_shopown hs,hm_market hm WHERE a.pid = hs.pid AND hs.marketid = hm.id	
 </select>
 
+ <update id="updateRiderStatusZoreToTwo">
+   update hm_rider_order set rider_status=2,finish_time=#{finishTime},order_time=#{orderTime} where rider_status=0 and id = #{roid}
+ </update>
+ 
+  <update id="updateRiderStatusOneToTwo">
+   update hm_rider_order set rider_status=2,finish_time=#{finishTime} where (rider_status=1 or rider_status=3) and id = #{roid}
+ </update>
 </mapper>

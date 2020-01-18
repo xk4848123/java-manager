@@ -2,10 +2,13 @@ package com.nidecai.managerndc.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.nidecai.managerndc.common.codeutil.DateUtil;
@@ -24,6 +27,9 @@ public class MonitorServiceImpl implements MonitorService {
 	
 	@Autowired
 	private MarketMapper marketMapper;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
 	@Override
 	public List<Map<String, Object>> getOnlineRider() {
@@ -56,6 +62,30 @@ public class MonitorServiceImpl implements MonitorService {
 			onLineRiders.add(onLineRider);
 		}
 		return onLineRiders;
+	}
+
+	@Override
+	public List<Map<String, Object>> getClickFarming(Integer marketid) {
+		String sql = "SELECT tid FROM hm_pay_order WHERE tid in " + 
+				"(SELECT tid FROM hm_pay_order WHERE roid in (SELECT id FROM hm_rider_order WHERE marketid = ? AND pay_status = 1 AND is_delete = 0) GROUP BY tid HAVING COUNT(1) > 3)";
+		String queryUidSql = "SELECT uid FROM hm_pay_order WHERE tid = ?";
+		StringBuilder finalSql = new StringBuilder();
+		finalSql.append("select * from hm_pay_order where tid in (");
+		List<String> tidList = jdbcTemplate.queryForList(sql, String.class, marketid);
+		for (String tid : tidList) {
+			Set<Integer> uniqueUidList = new HashSet<>();
+			List<Integer> uidList = jdbcTemplate.queryForList(queryUidSql,Integer.class,tid);
+			for (Integer uid : uidList) {
+				uniqueUidList.add(uid);
+			}
+			if (uniqueUidList.size() > 3) {
+				finalSql.append("'").append(tid).append("'").append(",");
+			}
+		}
+		String finalSqlString = finalSql.deleteCharAt(finalSql.length() - 1).append(")").toString();
+		System.out.println(finalSqlString);
+		return jdbcTemplate.queryForList(finalSqlString);
+		
 	}
 
 }

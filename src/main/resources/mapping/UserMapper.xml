@@ -37,4 +37,8 @@
     <result column="vip_promotion_rewardover" jdbcType="DECIMAL" property="vipPromotionRewardover" />
     <result column="public_openid" jdbcType="VARCHAR" property="publicOpenid" />
   </resultMap>
+  
+<update id="updateIntegral">
+   update hm_user SET integral = integral + #{addIntegral} WHERE id = #{uid}
+</update>
 </mapper>

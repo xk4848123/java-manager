@@ -28,4 +28,16 @@
     <result column="test" jdbcType="INTEGER" property="test" />
     <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
+  <update id="updatePayStatus">
+   update hm_order SET pay_status = #{payStatus} WHERE roid = #{roid}
+ </update>
+  <select id="getOrderId" resultType="java.lang.Integer">
+   select id from hm_order where roid = #{roid}
+ </select>
+  <update id="updateRiderStatus">
+   update hm_order SET rider_status = #{riderStatus} WHERE roid = #{roid}
+ </update>
+
+
+
 </mapper>

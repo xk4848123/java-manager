@@ -39,4 +39,8 @@ public interface RiderOrderMapper extends Mapper<RiderOrder> {
     
     List<Map<String, Object>> getStoreOrderUser(@Param("dramaIds") List<String> stringListPayOrder);
     
+    Integer updateRiderStatusZoreToTwo(@Param("finishTime") Integer finishTime,@Param("orderTime") Integer orderTime,@Param("roid") Integer roid);
+    
+    Integer updateRiderStatusOneToTwo(@Param("finishTime") Integer finishTime,@Param("roid") Integer roid);
+    
 }
